@@ -1,0 +1,224 @@
+[debug] [2025-12-09T11:07:18.720Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:18.722Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:18.727Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:18.727Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:18.905Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:18.905Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:18.906Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:18.906Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:19.004Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:19.005Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:19.011Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:19.011Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:19.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:19.186Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-09T11:07:19.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-09T11:07:19.187Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.716Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.716Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.716Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.717Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.753Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.753Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.718Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.753Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.753Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.717Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:26.753Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:26.753Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.012Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.013Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.013Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.013Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.024Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.024Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.025Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.025Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.029Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.029Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T16:58:27.030Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T16:58:27.030Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.817Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.832Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.832Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.833Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.831Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.872Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.872Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.872Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.872Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.834Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:34.907Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:34.907Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.093Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.245Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.246Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.253Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.253Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.528Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.234Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.520Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.521Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.534Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.537Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.537Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.763Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.764Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.765Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.765Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.858Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.859Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:01:35.859Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:01:35.859Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.719Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.720Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.719Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.721Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.721Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.721Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.745Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.746Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.747Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.747Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.749Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.750Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.915Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.916Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.916Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.916Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.927Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.927Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.927Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.928Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.928Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.928Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:03:49.928Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:03:49.929Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.789Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.792Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.803Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.803Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.976Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.976Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.977Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.977Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.888Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.890Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.899Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.899Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.067Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.067Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.068Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.068Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.885Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.886Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.894Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.894Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.069Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.069Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.069Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.069Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.884Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.885Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:46.894Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:46.894Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.069Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.069Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-10T17:04:47.069Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-10T17:04:47.069Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.098Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.100Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.102Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.102Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.122Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.122Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.137Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.137Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.280Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.280Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.283Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.283Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.313Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.313Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.314Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.314Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.778Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.779Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:23.784Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:23.784Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:24.101Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:24.101Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:55:24.102Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:55:24.102Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:18.941Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:18.943Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:18.953Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:18.953Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.072Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.072Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.073Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.073Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.298Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.300Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.304Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.304Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.462Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.462Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T04:58:19.463Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T04:58:19.463Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:00:27.630Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:00:27.632Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:00:27.637Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:00:27.638Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:00:29.201Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:00:29.203Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:00:29.208Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:00:29.209Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:01:56.921Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:01:56.923Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:01:56.941Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:01:56.941Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:01:57.060Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:01:57.060Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:01:57.061Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:01:57.061Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:03:14.195Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:03:14.197Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:03:14.210Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:03:14.210Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:03:14.316Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:03:14.317Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:03:14.318Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:03:14.318Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:19:50.163Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:19:50.164Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:19:50.170Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:19:50.170Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:19:50.272Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:19:50.272Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T05:19:50.273Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T05:19:50.273Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:08.387Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:08.390Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:08.405Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:08.405Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:08.626Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:08.626Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:08.626Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:08.626Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:12.759Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:13.056Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:13.102Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:13.102Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:13.300Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:13.300Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:04:13.303Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:04:13.303Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:05:16.271Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:05:16.274Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:05:16.309Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:05:16.309Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:05:16.487Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:05:16.487Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)
+[debug] [2025-12-11T12:05:16.487Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-11T12:05:16.488Z] > authorizing via signed-in user (researchchatgpt01@gmail.com)

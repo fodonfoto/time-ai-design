@@ -1,0 +1,48 @@
+{
+    "manifest_version": 3,
+    "name": "TIME AI",
+    "version": "1.0.0",
+    "description": "Generate and paste AI designs to Figma canvas",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "tabs",
+        "clipboardWrite",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://www.figma.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "TIME AI",
+        "default_icon": {
+            "16": "src/assets/time.png",
+            "48": "src/assets/time.png",
+            "128": "src/assets/time.png"
+        }
+    },
+    "icons": {
+        "16": "src/assets/time.png",
+        "48": "src/assets/time.png",
+        "128": "src/assets/time.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.figma.com/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+    },
+    "sandbox": {
+        "pages": [
+            "sandbox.html"
+        ]
+    }
+}
