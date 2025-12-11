@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/* TIME AI Theme - Dark Mode Only */
+:root {
+    --radius: 0.5rem;
+
+    /* TIME AI Colors */
+    --background: #1a1a1a;
+    --foreground: #ffffff;
+
+    --card: #2d2d2d;
+    --card-foreground: #ffffff;
+
+    --popover: #2d2d2d;
+    --popover-foreground: #ffffff;
+
+    /* Primary = TIME AI Green */
+    --primary: #10a37f;
+    --primary-foreground: #ffffff;
+
+    /* Brand Gradient */
+    --brand-gradient: linear-gradient(216deg, #10A37F 15.88%, #063D30 89.32%);
+
+    --secondary: #3a3a3a;
+    --secondary-foreground: #ffffff;
+
+    --muted: #3a3a3a;
+    --muted-foreground: #b3b3b3;
+
+    --accent: #2d2d2d;
+    --accent-foreground: #ffffff;
+
+    --destructive: #ef4444;
+
+    --border: #4a4a4a;
+    --input: #2d2d2d;
+    --ring: #10a37f;
+}
+
+/* Base styles */
+* {
+    border-color: var(--border);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Tailwind color utilities mapping */
+.bg-background {
+    background-color: var(--background);
+}
+
+.bg-foreground {
+    background-color: var(--foreground);
+}
+
+.bg-card {
+    background-color: var(--card);
+}
+
+.bg-primary {
+    background-color: var(--primary);
+}
+
+.bg-secondary {
+    background-color: var(--secondary);
+}
+
+.bg-muted {
+    background-color: var(--muted);
+}
+
+.bg-accent {
+    background-color: var(--accent);
+}
+
+.bg-destructive {
+    background-color: var(--destructive);
+}
+
+.bg-border {
+    background-color: var(--border);
+}
+
+.text-foreground {
+    color: var(--foreground);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-primary-foreground {
+    color: var(--primary-foreground);
+}
+
+.text-muted-foreground {
+    color: var(--muted-foreground);
+}
+
+.text-card-foreground {
+    color: var(--card-foreground);
+}
+
+.text-destructive {
+    color: var(--destructive);
+}
+
+.border-border {
+    border-color: var(--border);
+}
+
+.border-primary {
+    border-color: var(--primary);
+}
+
+.ring-primary {
+    --tw-ring-color: var(--primary);
+}
+
+/* Brand Gradient - Animated */
+.bg-brand-gradient {
+    background: radial-gradient(ellipse at center,
+            rgba(5, 150, 105, 1) 0%,
+            rgba(6, 114, 82, 1) 12.5%,
+            rgba(6, 78, 59, 1) 25%,
+            rgba(2, 44, 34, 1) 50%,
+            rgba(1, 22, 17, 1) 75%,
+            rgba(1, 11, 9, 1) 87.5%,
+            rgba(0, 0, 0, 1) 100%);
+    background-size: 200% 200%;
+    animation: gradient-pulse 8s ease-in-out infinite;
+}
+
+@keyframes gradient-pulse {
+
+    0%,
+    100% {
+        background-position: 50% 50%;
+        background-size: 200% 200%;
+    }
+
+    25% {
+        background-position: 60% 40%;
+        background-size: 220% 220%;
+    }
+
+    50% {
+        background-position: 50% 60%;
+        background-size: 180% 180%;
+    }
+
+    75% {
+        background-position: 40% 50%;
+        background-size: 210% 210%;
+    }
+}
+
+/* Alternative glow animation overlay */
+.bg-brand-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%,
+            rgba(16, 163, 127, 0.15) 0%,
+            transparent 60%);
+    animation: glow-pulse 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Canvas grid pattern - like FigJam */
+.canvas-grid {
+    background-color: var(--background);
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Canvas grid pattern - larger dots for zoom out */
+.canvas-grid-large {
+    background-color: var(--background);
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px, 12px 12px;
+}
