@@ -81,26 +81,35 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
     const handleMouseUp = () => setIsDragging(false)
     const handleMouseLeave = () => setIsDragging(false)
 
-    const handleWheel = (e: React.WheelEvent) => {
-        e.preventDefault()
+    // Use useEffect to attach non-passive wheel listener
+    useEffect(() => {
+        const container = containerRef.current
+        if (!container) return
 
-        if (e.ctrlKey || e.metaKey) {
-            const delta = e.deltaY > 0 ? -0.05 : 0.05
-            setScale(prev => Math.min(Math.max(prev + delta, 0.2), 2))
-        } else {
-            if (e.shiftKey) {
-                setPan(prev => ({
-                    ...prev,
-                    x: prev.x - e.deltaY
-                }))
+        const handleWheel = (e: WheelEvent) => {
+            e.preventDefault()
+
+            if (e.ctrlKey || e.metaKey) {
+                const delta = e.deltaY > 0 ? -0.05 : 0.05
+                setScale(prev => Math.min(Math.max(prev + delta, 0.2), 2))
             } else {
-                setPan(prev => ({
-                    x: prev.x - e.deltaX,
-                    y: prev.y - e.deltaY
-                }))
+                if (e.shiftKey) {
+                    setPan(prev => ({
+                        ...prev,
+                        x: prev.x - e.deltaY
+                    }))
+                } else {
+                    setPan(prev => ({
+                        x: prev.x - e.deltaX,
+                        y: prev.y - e.deltaY
+                    }))
+                }
             }
         }
-    }
+
+        container.addEventListener('wheel', handleWheel, { passive: false })
+        return () => container.removeEventListener('wheel', handleWheel)
+    }, [])
 
     const handleCopy = async (frame: DesignFrame) => {
         if (isCopying || !onCopyToFigma) return
@@ -142,7 +151,7 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
     }
 
     return (
-        <div className="flex-1 relative flex flex-col bg-background overflow-hidden">
+        <div suppressHydrationWarning className="flex-1 relative flex flex-col bg-background overflow-hidden">
             {/* Zoom Controls */}
             <div className="absolute top-4 right-4 z-30 flex items-center gap-1 bg-card/80 backdrop-blur-md rounded-xl p-1 border border-border">
                 <button
@@ -152,7 +161,7 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
                 >
                     <ZoomOut size={16} />
                 </button>
-                <div className="px-3 text-xs font-medium text-foreground min-w-[50px] text-center">
+                <div suppressHydrationWarning className="px-3 text-xs font-medium text-foreground min-w-[50px] text-center">
                     {Math.round(scale * 100)}%
                 </div>
                 <button
@@ -180,7 +189,7 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
-                onWheel={handleWheel}
+
             >
                 {!project ? (
                     <div className="h-full flex flex-col items-center justify-center">
@@ -287,9 +296,10 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
                                             width: frame.device === 'mobile' ? '375px' : '1440px',
                                             height: frame.device === 'mobile' ? '812px' : '900px',
                                             borderRadius: frame.device === 'mobile' ? '40px' : '12px',
+                                            transform: 'translateZ(0)', // Force containment for fixed elements
                                         }}
                                     >
-                                        <div className={`w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar ${isDragging ? 'pointer-events-none' : ''}`}>
+                                        <div className={`w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar pointer-events-none select-none`}>
                                             {frame.status === 'pending' ? (
                                                 <div className="flex items-center justify-center h-full">
                                                     <div className="flex flex-col items-center gap-3">
@@ -320,7 +330,7 @@ const Canvas: React.FC<CanvasProps> = ({ project, onSelectFrame, onCopyToFigma }
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     )
 }
 

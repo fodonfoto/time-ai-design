@@ -86,7 +86,10 @@ const UserAvatar: React.FC<{ email: string }> = ({ email }) => {
         .slice(0, 2) || 'U'
 
     return (
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-semibold">
+        <div
+            className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-semibold"
+            suppressHydrationWarning
+        >
             {initials}
         </div>
     )
@@ -120,7 +123,10 @@ const Sidebar: React.FC<SidebarProps> = ({
 
     return (
         <>
-            <div className="w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0 h-full bg-background border-r border-border flex flex-col z-20">
+            <div
+                className="w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0 h-full bg-background border-r border-border flex flex-col z-20"
+                suppressHydrationWarning
+            >
                 {/* Header - TIME AI Branding */}
                 <div className="p-5 flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
@@ -150,7 +156,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
 
                 {/* Recent Projects */}
-                <div className="flex-1 overflow-y-auto px-3 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto px-2 pb-0 custom-scrollbar">
                     <div className="flex items-center gap-2 px-2 mb-3 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                         <Clock size={12} />
                         <span>Recent Projects</span>
@@ -208,7 +214,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
 
                 {/* User Footer with Settings Link */}
-                <div className="p-4 border-t border-border">
+                <div className="p-2 border-t border-border">
                     <Link
                         href="/settings"
                         className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-card transition-colors group"

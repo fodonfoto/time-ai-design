@@ -11,7 +11,9 @@ export interface DesignFrame {
     x: number;  // position on canvas
     y: number;
     status: FrameStatus;
+
     timestamp: number;
+    figmaJson?: any;
 }
 
 // Design project containing multiple frames

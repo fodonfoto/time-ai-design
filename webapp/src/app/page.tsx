@@ -1,5 +1,6 @@
 'use client'
 
+import * as geminiService from '@/services/geminiService'
 import React, { useState, useEffect, useRef } from 'react'
 import { DeviceType, DesignProject, DesignFrame } from '../types'
 import Sidebar from '../components/Sidebar'
@@ -40,117 +41,23 @@ export default function Home() {
     }
   }, [projects, isLoaded])
 
-  const handleGenerate = async (prompt: string, device: DeviceType, createNewFrame?: boolean) => {
-    setIsGenerating(true)
-
-    // If no active project, create new project with first frame
-    if (!activeProjectId) {
-      const projectId = generateId()
-      const frameId = generateId()
-
-      const newFrame: DesignFrame = {
-        id: frameId,
-        name: prompt.slice(0, 25) + (prompt.length > 25 ? '...' : ''),
-        html: '',
-        device,
-        x: 0,
-        y: 0,
-        status: 'pending',
-        timestamp: Date.now()
-      }
-
-      const newProject: DesignProject = {
-        id: projectId,
-        title: prompt.slice(0, 30) + (prompt.length > 30 ? '...' : ''),
-        description: prompt,
-        frames: [newFrame],
-        timestamp: Date.now(),
-        activeFrameId: frameId
-      }
-
-      setProjects(prev => [newProject, ...prev])
-      setActiveProjectId(projectId)
-
-      // Simulate AI generation
-      setTimeout(() => {
-        setProjects(prev => prev.map(p => {
-          if (p.id === projectId) {
-            return {
-              ...p,
-              frames: p.frames.map(f => {
-                if (f.id === frameId) {
-                  return { ...f, html: generateMockHtml(prompt), status: 'completed' as const }
-                }
-                return f
-              })
-            }
-          }
-          return p
-        }))
-        setIsGenerating(false)
-      }, 2000)
-
-    } else if (createNewFrame) {
-      // Add new frame to existing project
-      const frameId = generateId()
-      const existingFrameCount = activeProject?.frames.length || 0
-
-      const newFrame: DesignFrame = {
-        id: frameId,
-        name: prompt.slice(0, 25) + (prompt.length > 25 ? '...' : ''),
-        html: '',
-        device,
-        x: existingFrameCount * 420, // Position next to existing frames
-        y: 0,
-        status: 'pending',
-        timestamp: Date.now()
-      }
+  // Helper to generate a single frame's content and update state
+  const generateSingleFrame = async (projectId: string, frameId: string, fullPrompt: string, device: DeviceType, image?: string) => {
+    try {
+      const design = await geminiService.generateDesign(fullPrompt, device, image);
 
       setProjects(prev => prev.map(p => {
-        if (p.id === activeProjectId) {
-          return {
-            ...p,
-            frames: [...p.frames, newFrame],
-            activeFrameId: frameId
-          }
-        }
-        return p
-      }))
-
-      // Simulate AI generation
-      setTimeout(() => {
-        setProjects(prev => prev.map(p => {
-          if (p.id === activeProjectId) {
-            return {
-              ...p,
-              frames: p.frames.map(f => {
-                if (f.id === frameId) {
-                  return { ...f, html: generateMockHtml(prompt), status: 'completed' as const }
-                }
-                return f
-              })
-            }
-          }
-          return p
-        }))
-        setIsGenerating(false)
-      }, 2000)
-
-    } else {
-      // Update current frame (edit mode)
-      const currentFrameId = activeProject?.activeFrameId
-
-      // Update to pending status
-      setProjects(prev => prev.map(p => {
-        if (p.id === activeProjectId) {
+        if (p.id === projectId) {
           return {
             ...p,
             frames: p.frames.map(f => {
-              if (f.id === currentFrameId) {
+              if (f.id === frameId) {
                 return {
                   ...f,
-                  name: prompt.slice(0, 25) + (prompt.length > 25 ? '...' : ''),
-                  status: 'pending' as const
+                  name: design.title || f.name,
+                  html: design.html,
+                  status: 'completed',
+                  figmaJson: design.figmaJson
                 }
               }
               return f
@@ -159,31 +66,112 @@ export default function Home() {
         }
         return p
       }))
+    } catch (e) {
+      console.error(`Failed to generate frame ${frameId}`, e);
+      setProjects(prev => prev.map(p => {
+        if (p.id === projectId) {
+          return {
+            ...p,
+            frames: p.frames.map(f => {
+              if (f.id === frameId) {
+                return { ...f, status: 'error' }
+              }
+              return f
+            })
+          }
+        }
+        return p
+      }))
+    }
+  }
 
-      // Simulate AI generation
-      setTimeout(() => {
+  const handleGenerate = async (prompt: string, device: DeviceType, createNewFrame?: boolean, image?: string) => {
+    setIsGenerating(true)
+    let targetProjectId = activeProjectId
+
+    try {
+      // 1. Plan the Flow (Product Manager Step)
+      console.log("Planning flow for:", prompt);
+      const plan = await geminiService.planUserFlow(prompt);
+      console.log("Flow Plan:", plan);
+
+      // 2. Create Project & Pending Frames
+      const timestamp = Date.now();
+
+      if (!targetProjectId) {
+        // Create New Project with ALL Planned Frames
+        const projectId = generateId();
+        targetProjectId = projectId;
+
+        const newFrames: DesignFrame[] = plan.map((screen, index) => ({
+          id: generateId(),
+          name: screen.title,
+          html: '', // Pending state
+          device,
+          x: index * 420, // Offset each frame horizontally
+          y: 0,
+          status: 'pending',
+          timestamp: timestamp + index
+        }));
+
+        const newProject: DesignProject = {
+          id: projectId,
+          title: prompt.slice(0, 30) + (prompt.length > 30 ? '...' : ''),
+          description: prompt,
+          frames: newFrames,
+          timestamp: timestamp,
+          activeFrameId: newFrames[0].id
+        }
+
+        setProjects(prev => [newProject, ...prev])
+        setActiveProjectId(projectId)
+
+        // Start Generation for each frame
+        for (let i = 0; i < plan.length; i++) {
+          const screen = plan[i];
+          const frameId = newFrames[i].id;
+          await generateSingleFrame(targetProjectId, frameId, screen.title + ": " + screen.description, device, image);
+        }
+
+      } else {
+        // Add to existing project
+        const existingFrameCount = activeProject?.frames.length || 0;
+
+        const newFrames: DesignFrame[] = plan.map((screen, index) => ({
+          id: generateId(),
+          name: screen.title,
+          html: '',
+          device,
+          x: (existingFrameCount + index) * 420,
+          y: 0,
+          status: 'pending',
+          timestamp: timestamp + index
+        }));
+
+        // Update Project with new pending frames
         setProjects(prev => prev.map(p => {
-          if (p.id === activeProjectId) {
+          if (p.id === targetProjectId) {
             return {
               ...p,
-              title: prompt.slice(0, 30) + (prompt.length > 30 ? '...' : ''),
-              frames: p.frames.map(f => {
-                if (f.id === currentFrameId) {
-                  return {
-                    ...f,
-                    html: generateMockHtml(prompt),
-                    timestamp: Date.now(),
-                    status: 'completed' as const
-                  }
-                }
-                return f
-              })
+              frames: [...p.frames, ...newFrames],
+              activeFrameId: newFrames[0].id
             }
           }
           return p
-        }))
-        setIsGenerating(false)
-      }, 2000)
+        }));
+
+        // Generate each
+        for (let i = 0; i < plan.length; i++) {
+          const screen = plan[i];
+          const frameId = newFrames[i].id;
+          await generateSingleFrame(targetProjectId, frameId, screen.title + ": " + screen.description, device, image);
+        }
+      }
+
+    } catch (error) {
+      console.error('Error generating design:', error)
+    } finally {
+      setIsGenerating(false)
     }
   }
 
@@ -210,13 +198,122 @@ export default function Home() {
     </div>
   `
 
+  // Helper function for mock Figma JSON generation
+  const generateMockJson = (prompt: string) => ({
+    type: 'FRAME',
+    name: prompt.substring(0, 20),
+    width: 375,
+    height: 812,
+    fills: [{ type: 'SOLID', color: { r: 0.1, g: 0.1, b: 0.1 } }],
+    children: [
+      {
+        type: 'TEXT',
+        name: 'Title',
+        characters: '✨ Design Generated!',
+        x: 24,
+        y: 60,
+        fontSize: 24,
+        fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }],
+        fontName: { family: 'Inter', style: 'Bold' }
+      },
+      {
+        type: 'TEXT',
+        name: 'Subtitle',
+        characters: prompt,
+        x: 24,
+        y: 100,
+        fontSize: 14,
+        fills: [{ type: 'SOLID', color: { r: 0.7, g: 0.7, b: 0.7 } }]
+      },
+      {
+        type: 'RECTANGLE',
+        name: 'Card',
+        x: 24,
+        y: 150,
+        width: 327,
+        height: 200,
+        cornerRadius: 16,
+        fills: [{ type: 'SOLID', color: { r: 0.06, g: 0.64, b: 0.5 }, opacity: 0.1 }],
+        strokes: [{ type: 'SOLID', color: { r: 0.06, g: 0.64, b: 0.5 } }],
+        strokeWeight: 1
+      },
+      {
+        type: 'RECTANGLE',
+        name: 'Button',
+        x: 24,
+        y: 370,
+        width: 327,
+        height: 48,
+        cornerRadius: 12,
+        fills: [{ type: 'SOLID', color: { r: 0.06, g: 0.64, b: 0.5 } }]
+      },
+      {
+        type: 'TEXT',
+        name: 'Button Text',
+        characters: 'Primary Action',
+        x: 135,
+        y: 385,
+        fontSize: 14,
+        fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }],
+        fontName: { family: 'Inter', style: 'Medium' }
+      }
+    ]
+  })
+
   const handleCopyToFigma = async (frame: DesignFrame) => {
-    console.log('Copy to Figma:', frame)
+    console.log('Copy to Figma:', frame.id)
+
+    // ALWAYS regenerate Figma JSON on the fly to ensure latest parser logic is used
+    // and to fix issues where initial generation might have had poor JSON.
+    let figmaData = frame.figmaJson;
+
     try {
-      await navigator.clipboard.writeText(frame.html)
-      console.log('HTML copied to clipboard')
+      if (frame.html && geminiService.htmlToFigmaNodes) {
+        console.log("Regenerating Figma JSON from HTML...");
+        figmaData = geminiService.htmlToFigmaNodes(frame.html);
+      }
+    } catch (e) {
+      console.warn("Failed to regenerate Figma JSON, falling back to stored JSON", e);
+    }
+
+    if (!figmaData) {
+      console.warn('No Figma JSON available for this frame')
+      // Fallback to HTML copy if no JSON
+      try {
+        await navigator.clipboard.writeText(frame.html)
+        console.log('Fallback: HTML copied to clipboard')
+        alert('Copied HTML only (no Figma JSON available). Capture templates first/Wait for AI.')
+      } catch (err) {
+        console.error('Copy failed:', err)
+      }
+      return
+    }
+
+    try {
+      const { createFigmaClipboardHTML } = await import('../lib/figma-encoder')
+
+      const result = await createFigmaClipboardHTML(figmaData)
+
+      if (result.success && result.html) {
+        const blob = new Blob([result.html], { type: 'text/html' })
+        const text = JSON.stringify(figmaData, null, 2)
+        const textBlob = new Blob([text], { type: 'text/plain' })
+
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'text/html': blob,
+            'text/plain': textBlob
+          })
+        ])
+
+        console.log('✅ Copied to clipboard in Native Figma format!')
+        alert('Copied to Figma! You can now paste (Cmd+V) directly into Figma.')
+      } else {
+        throw new Error(result.error || 'Encoding failed')
+      }
     } catch (err) {
-      console.error('Copy failed:', err)
+      console.error('Copy to Figma failed:', err)
+      alert('Failed to copy to Figma. Check console for details.')
     }
   }
 

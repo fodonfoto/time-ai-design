@@ -2,10 +2,10 @@
 
 import React, { useState, KeyboardEvent, useRef, useImperativeHandle, forwardRef } from 'react'
 import { DeviceType } from '@/types'
-import { Smartphone, Monitor, Sparkles, Loader2, ArrowUp } from 'lucide-react'
+import { Smartphone, Monitor, Sparkles, Loader2, ArrowUp, Image as ImageIcon, X } from 'lucide-react'
 
 interface PromptBarProps {
-    onSubmit: (prompt: string, device: DeviceType, createNewFrame?: boolean) => void
+    onSubmit: (prompt: string, device: DeviceType, createNewFrame?: boolean, image?: string) => void
     isGenerating: boolean
     hasActiveDesign?: boolean
 }
@@ -17,7 +17,9 @@ export interface PromptBarRef {
 const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenerating, hasActiveDesign }, ref) => {
     const [prompt, setPrompt] = useState('')
     const [device, setDevice] = useState<DeviceType>('mobile')
+    const [selectedImage, setSelectedImage] = useState<string | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     useImperativeHandle(ref, () => ({
         focus: () => {
@@ -25,8 +27,26 @@ const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenera
         }
     }))
 
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setSelectedImage(reader.result as string)
+            }
+            reader.readAsDataURL(file)
+        }
+    }
+
+    const clearImage = () => {
+        setSelectedImage(null)
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+        }
+    }
+
     const handleSubmit = () => {
-        if (!prompt.trim() || isGenerating) return
+        if (!prompt.trim() && !selectedImage || isGenerating) return
 
         // Check for @new_frame command
         const newFramePattern = /^@new_frame\s+/i
@@ -37,10 +57,11 @@ const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenera
             ? prompt.trim().replace(newFramePattern, '')
             : prompt.trim()
 
-        if (!actualPrompt) return
+        if (!actualPrompt && !selectedImage) return
 
-        onSubmit(actualPrompt, device, isNewFrame)
+        onSubmit(actualPrompt, device, isNewFrame, selectedImage || undefined)
         setPrompt('')
+        clearImage()
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -58,6 +79,21 @@ const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenera
                 <div className="absolute -inset-0.5 bg-primary rounded-3xl opacity-20 group-hover:opacity-40 blur transition duration-500"></div>
 
                 <div className="relative bg-card border border-border rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+                    {/* Image Preview */}
+                    {selectedImage && (
+                        <div className="px-5 pt-4 pb-0 relative">
+                            <div className="relative inline-block">
+                                <img src={selectedImage} alt="Reference" className="h-16 w-auto rounded-lg border border-border/50 object-cover" />
+                                <button
+                                    onClick={clearImage}
+                                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-0.5 hover:bg-destructive/90 transition-colors shadow-sm"
+                                >
+                                    <X size={12} />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Input Area */}
                     <div className="relative">
                         <textarea
@@ -75,34 +111,57 @@ const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenera
 
                     {/* Controls Bar */}
                     <div className="flex justify-between items-center px-3 pb-3 pt-1">
-                        {/* Device Toggles */}
-                        <div className="flex items-center p-1 bg-background rounded-full border border-border">
-                            <button
-                                onClick={() => setDevice('mobile')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${device === 'mobile'
-                                    ? 'bg-brand-gradient text-primary-foreground'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <Smartphone size={14} />
-                                <span>Mobile</span>
-                            </button>
-                            <button
-                                onClick={() => setDevice('desktop')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${device === 'desktop'
-                                    ? 'bg-brand-gradient text-primary-foreground'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <Monitor size={14} />
-                                <span>Desktop</span>
-                            </button>
+                        <div className="flex items-center gap-2">
+                            {/* Device Toggles */}
+                            <div className="flex items-center p-1 bg-background rounded-full border border-border">
+                                <button
+                                    onClick={() => setDevice('mobile')}
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${device === 'mobile'
+                                        ? 'bg-brand-gradient text-primary-foreground'
+                                        : 'text-muted-foreground hover:text-foreground'
+                                        }`}
+                                >
+                                    <Smartphone size={14} />
+                                    <span>Mobile</span>
+                                </button>
+                                <button
+                                    onClick={() => setDevice('desktop')}
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${device === 'desktop'
+                                        ? 'bg-brand-gradient text-primary-foreground'
+                                        : 'text-muted-foreground hover:text-foreground'
+                                        }`}
+                                >
+                                    <Monitor size={14} />
+                                    <span>Desktop</span>
+                                </button>
+                            </div>
+
+                            {/* Image Upload Button */}
+                            <div className="flex items-center">
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={handleImageSelect}
+                                    accept="image/*"
+                                    className="hidden"
+                                />
+                                <button
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className={`p-2 rounded-full transition-all ${selectedImage
+                                        ? 'text-primary bg-primary/10'
+                                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                                        }`}
+                                    title="Attach Image"
+                                >
+                                    <ImageIcon size={18} />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Submit Button - TIME AI Brand Gradient */}
                         <button
                             onClick={handleSubmit}
-                            disabled={!prompt.trim() || isGenerating}
+                            disabled={(!prompt.trim() && !selectedImage) || isGenerating}
                             className={`
                 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200
                 ${!prompt.trim() || isGenerating
@@ -117,7 +176,11 @@ const PromptBar = forwardRef<PromptBarRef, PromptBarProps>(({ onSubmit, isGenera
             </div>
 
             {/* Footer Branding */}
-            <div className="text-center mt-4 flex items-center justify-center gap-2 text-[11px] text-muted-foreground font-medium uppercase tracking-widest opacity-60">
+            {/* Footer Branding */}
+            <div
+                suppressHydrationWarning
+                className="text-center mt-4 flex items-center justify-center gap-2 text-[11px] text-muted-foreground font-medium uppercase tracking-widest opacity-60"
+            >
                 <Sparkles size={10} className="text-primary" />
                 <span>Powered by TIME AI 2025 V.1.0.0</span>
             </div>
