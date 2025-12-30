@@ -132,6 +132,33 @@ You MUST mimic the exact HTML structure and Tailwind classes of our local compon
 
 # LAYER 4: OUTPUT FORMAT SPECIFICATION
 
+**8. QUALITY CHECKLIST (VERIFY BEFORE OUTPUT):**
+✓ Colors match the design system palette (no arbitrary hex values)
+✓ Spacing follows 4pt grid system (gap-1, gap-2, gap-4, gap-6, gap-8)
+✓ Typography is readable (text-sm minimum for body, text-xs for captions)
+✓ All text has sufficient contrast (white on dark backgrounds)
+✓ Layout is mobile-first (375px viewport reference)
+✓ Components are consistent across the design
+✓ Hover states are defined for interactive elements
+✓ No broken placeholder text - use realistic content
+✓ Code is clean, semantic HTML with Tailwind classes
+✓ Safe areas are respected (pt-14 top, pb-10 bottom)
+
+**9. SVG/FIGMA EXPORT COMPATIBILITY:**
+*   **Avoid CSS Not Supported in SVG:**
+    *   ❌ \`backdrop-blur\` (use solid backgrounds instead)
+    *   ❌ \`bg-gradient-to-*\` on text (use on containers only)
+    *   ❌ Complex \`filter\` effects
+*   **Preferred for SVG Export:**
+    *   ✓ Solid background colors (\`bg-zinc-900\`)
+    *   ✓ Simple borders (\`border border-white/10\`)
+    *   ✓ Inline SVG icons (not icon fonts)
+    *   ✓ Explicit width/height on containers
+*   **For Best Results:**
+    *   Keep layout simple (single-level flex)
+    *   Use explicit dimensions where possible
+    *   Prefer \`gap-*\` over margin for spacing
+
 Return a **SINGLE VALID JSON OBJECT**:
 {
   "title": "Short Screen Name",
@@ -429,10 +456,58 @@ export function htmlToFigmaNodes(htmlString: string): any {
     return elementToNode(root as HTMLElement);
 }
 
+// ============================================
+// Tailwind Color Palette (Zinc, Slate, Emerald, etc.)
+// ============================================
+const TAILWIND_COLORS: { [key: string]: string } = {
+    // Zinc
+    'zinc-50': 'fafafa', 'zinc-100': 'f4f4f5', 'zinc-200': 'e4e4e7', 'zinc-300': 'd4d4d8',
+    'zinc-400': 'a1a1aa', 'zinc-500': '71717a', 'zinc-600': '52525b', 'zinc-700': '3f3f46',
+    'zinc-800': '27272a', 'zinc-900': '18181b', 'zinc-950': '09090b',
+    // Slate
+    'slate-50': 'f8fafc', 'slate-100': 'f1f5f9', 'slate-200': 'e2e8f0', 'slate-300': 'cbd5e1',
+    'slate-400': '94a3b8', 'slate-500': '64748b', 'slate-600': '475569', 'slate-700': '334155',
+    'slate-800': '1e293b', 'slate-900': '0f172a', 'slate-950': '020617',
+    // Emerald (Primary)
+    'emerald-400': '34d399', 'emerald-500': '10b981', 'emerald-600': '059669',
+    // Violet (Accent)
+    'violet-400': 'a78bfa', 'violet-500': '8b5cf6', 'violet-600': '7c3aed',
+    // Indigo
+    'indigo-400': '818cf8', 'indigo-500': '6366f1', 'indigo-600': '4f46e5',
+    // Rose
+    'rose-400': 'fb7185', 'rose-500': 'f43f5e', 'rose-600': 'e11d48',
+    // Cyan
+    'cyan-400': '22d3ee', 'cyan-500': '06b6d4', 'cyan-600': '0891b2',
+    // Orange
+    'orange-400': 'fb923c', 'orange-500': 'f97316', 'orange-600': 'ea580c',
+    // Blue
+    'blue-400': '60a5fa', 'blue-500': '3b82f6', 'blue-600': '2563eb',
+    // Green
+    'green-400': '4ade80', 'green-500': '22c55e', 'green-600': '16a34a',
+    // Red
+    'red-400': 'f87171', 'red-500': 'ef4444', 'red-600': 'dc2626',
+    // Yellow
+    'yellow-400': 'facc15', 'yellow-500': 'eab308', 'yellow-600': 'ca8a04',
+    // Gray
+    'gray-50': 'f9fafb', 'gray-100': 'f3f4f6', 'gray-200': 'e5e7eb', 'gray-300': 'd1d5db',
+    'gray-400': '9ca3af', 'gray-500': '6b7280', 'gray-600': '4b5563', 'gray-700': '374151',
+    'gray-800': '1f2937', 'gray-900': '111827', 'gray-950': '030712',
+    // Neutral
+    'neutral-50': 'fafafa', 'neutral-100': 'f5f5f5', 'neutral-200': 'e5e5e5', 'neutral-300': 'd4d4d4',
+    'neutral-400': 'a3a3a3', 'neutral-500': '737373', 'neutral-600': '525252', 'neutral-700': '404040',
+    'neutral-800': '262626', 'neutral-900': '171717', 'neutral-950': '0a0a0a',
+    // Stone
+    'stone-50': 'fafaf9', 'stone-100': 'f5f5f4', 'stone-200': 'e7e5e4', 'stone-300': 'd6d3d1',
+    'stone-400': 'a8a29e', 'stone-500': '78716c', 'stone-600': '57534e', 'stone-700': '44403c',
+    'stone-800': '292524', 'stone-900': '1c1917', 'stone-950': '0c0a09',
+};
+
 function elementToNode(el: HTMLElement): any {
     // Determine type
-    const isText = el.tagName.match(/^H[1-6]$|^P$|^SPAN$|^BUTTON$|^A$/) || (el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE);
+    const isText = el.tagName.match(/^H[1-6]$|^P$|^SPAN$|^BUTTON$|^A$|^LABEL$/) ||
+        (el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE && el.textContent?.trim());
     const hasImage = el.tagName === 'IMG';
+    const isSvg = el.tagName === 'SVG' || el.tagName === 'svg';
 
     // Parse styles
     let classes = "";
@@ -444,104 +519,324 @@ function elementToNode(el: HTMLElement): any {
 
     const node: any = {
         type: "FRAME", // Default
-        name: el.tagName,
-        children: []
+        name: el.getAttribute('data-name') || el.tagName,
+        children: [],
+        visible: true
     };
 
-    // Color Logic - Design System Token Mapping
-    const bgMatch = classes.match(/bg-\[#([0-9a-fA-F]+)\]/);
-    if (bgMatch) {
-        node.fills = [{ type: "SOLID", color: hexToRgb(bgMatch[1]) }];
-    } else if (classes.includes('bg-background')) {
-        node.fills = [{ type: "SOLID", color: hexToRgb('1a1a1a') }];
-    } else if (classes.includes('bg-card')) {
-        node.fills = [{ type: "SOLID", color: hexToRgb('2d2d2d') }];
-    } else if (classes.includes('bg-primary')) {
-        node.fills = [{ type: "SOLID", color: hexToRgb('10a37f') }];
-    } else if (classes.includes('bg-secondary')) {
-        node.fills = [{ type: "SOLID", color: hexToRgb('27272a') }];
-    } else if (classes.includes('bg-muted')) {
-        node.fills = [{ type: "SOLID", color: hexToRgb('27272a') }];
-    } else if (classes.includes('bg-white')) {
-        node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
-    } else if (classes.includes('bg-black')) {
-        node.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }];
-    } else if (classes.includes('bg-transparent')) {
-        node.fills = [];
+    // ============================================
+    // SIZE EXTRACTION (Width/Height)
+    // ============================================
+    // Fixed Width
+    const wMatch = classes.match(/w-\[(\d+)px\]/) || classes.match(/w-(\d+)/);
+    if (wMatch) {
+        node.width = wMatch[0].includes('px') ? parseInt(wMatch[1]) : parseInt(wMatch[1]) * 4;
     }
+    // Fixed Height
+    const hMatch = classes.match(/h-\[(\d+)px\]/) || classes.match(/h-(\d+)/);
+    if (hMatch) {
+        node.height = hMatch[0].includes('px') ? parseInt(hMatch[1]) : parseInt(hMatch[1]) * 4;
+    }
+    // Full width/height
+    if (classes.includes('w-full')) node.layoutSizingHorizontal = 'FILL';
+    if (classes.includes('h-full')) node.layoutSizingVertical = 'FILL';
 
-    // Border Logic
-    if (classes.includes('border')) {
-        node.strokes = [{ type: "SOLID", color: hexToRgb('4a4a4a') }]; // border-border
-        node.strokeWeight = 1;
-        if (classes.includes('border-white/5')) {
-            node.strokes = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0.05 }];
-        } else if (classes.includes('border-white/10')) {
-            node.strokes = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, opacity: 0.1 }];
+    // ============================================
+    // GRADIENT DETECTION (bg-gradient-to-...)
+    // ============================================
+    const gradientMatch = classes.match(/bg-gradient-to-(r|l|t|b|tr|tl|br|bl)/);
+    const fromMatch = classes.match(/from-(\w+-\d+)/);
+    const toMatch = classes.match(/to-(\w+-\d+)/);
+    const viaMatch = classes.match(/via-(\w+-\d+)/);
+
+    if (gradientMatch && fromMatch) {
+        const direction = gradientMatch[1];
+        const fromColor = TAILWIND_COLORS[fromMatch[1]] || 'ffffff';
+        const toColor = toMatch ? (TAILWIND_COLORS[toMatch[1]] || '000000') : '000000';
+
+        // Map Tailwind direction to Figma gradient handles
+        let gradientHandles: { start: [number, number], end: [number, number] } = { start: [0, 0.5], end: [1, 0.5] };
+        switch (direction) {
+            case 'r': gradientHandles = { start: [0, 0.5], end: [1, 0.5] }; break;
+            case 'l': gradientHandles = { start: [1, 0.5], end: [0, 0.5] }; break;
+            case 't': gradientHandles = { start: [0.5, 1], end: [0.5, 0] }; break;
+            case 'b': gradientHandles = { start: [0.5, 0], end: [0.5, 1] }; break;
+            case 'tr': gradientHandles = { start: [0, 1], end: [1, 0] }; break;
+            case 'tl': gradientHandles = { start: [1, 1], end: [0, 0] }; break;
+            case 'br': gradientHandles = { start: [0, 0], end: [1, 1] }; break;
+            case 'bl': gradientHandles = { start: [1, 0], end: [0, 1] }; break;
+        }
+
+        const gradientStops = [
+            { position: 0, color: { ...hexToRgb(fromColor), a: 1 } }
+        ];
+        if (viaMatch) {
+            const viaColor = TAILWIND_COLORS[viaMatch[1]] || '888888';
+            gradientStops.push({ position: 0.5, color: { ...hexToRgb(viaColor), a: 1 } });
+        }
+        gradientStops.push({ position: 1, color: { ...hexToRgb(toColor), a: 1 } });
+
+        node.fills = [{
+            type: "GRADIENT_LINEAR",
+            visible: true,
+            opacity: 1,
+            blendMode: "NORMAL",
+            gradientStops: gradientStops,
+            gradientTransform: [
+                [gradientHandles.end[0] - gradientHandles.start[0], 0, gradientHandles.start[0]],
+                [0, gradientHandles.end[1] - gradientHandles.start[1], gradientHandles.start[1]]
+            ]
+        }];
+    }
+    // ============================================
+    // SOLID COLOR DETECTION (bg-...)
+    // ============================================
+    else {
+        // Arbitrary hex color
+        const bgHexMatch = classes.match(/bg-\[#([0-9a-fA-F]{3,6})\]/);
+        if (bgHexMatch) {
+            node.fills = [{ type: "SOLID", color: hexToRgb(bgHexMatch[1]), visible: true, opacity: 1 }];
+        }
+        // Tailwind palette colors (bg-zinc-900, bg-emerald-500, etc.)
+        else {
+            const bgPaletteMatch = classes.match(/bg-(\w+-\d+)/);
+            if (bgPaletteMatch && TAILWIND_COLORS[bgPaletteMatch[1]]) {
+                node.fills = [{ type: "SOLID", color: hexToRgb(TAILWIND_COLORS[bgPaletteMatch[1]]), visible: true, opacity: 1 }];
+            }
+            // Design System Tokens
+            else if (classes.includes('bg-background')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('09090b'), visible: true }]; // zinc-950
+            } else if (classes.includes('bg-card')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('18181b'), visible: true }]; // zinc-900
+            } else if (classes.includes('bg-primary')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('10b981'), visible: true }]; // emerald-500
+            } else if (classes.includes('bg-secondary')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('27272a'), visible: true }]; // zinc-800
+            } else if (classes.includes('bg-muted')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('27272a'), visible: true }];
+            } else if (classes.includes('bg-white')) {
+                node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, visible: true }];
+            } else if (classes.includes('bg-black')) {
+                node.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 }, visible: true }];
+            } else if (classes.includes('bg-transparent')) {
+                node.fills = [];
+            }
         }
     }
 
-    // Layout Logic
+    // ============================================
+    // OPACITY (opacity-XX)
+    // ============================================
+    const opacityMatch = classes.match(/opacity-(\d+)/);
+    if (opacityMatch) {
+        node.opacity = parseInt(opacityMatch[1]) / 100;
+    }
+    // bg-color/opacity pattern (e.g., bg-white/10)
+    const bgOpacityMatch = classes.match(/bg-(\w+)\/(\d+)/);
+    if (bgOpacityMatch && node.fills && node.fills.length > 0) {
+        node.fills[0].opacity = parseInt(bgOpacityMatch[2]) / 100;
+    }
+
+    // ============================================
+    // SHADOW DETECTION (shadow-sm, shadow-lg, etc.)
+    // ============================================
+    if (classes.includes('shadow')) {
+        const shadowEffects: any[] = [];
+        if (classes.includes('shadow-2xl')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.25 }, offset: { x: 0, y: 25 }, radius: 50, spread: -12 });
+        } else if (classes.includes('shadow-xl')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.2 }, offset: { x: 0, y: 20 }, radius: 25, spread: -5 });
+        } else if (classes.includes('shadow-lg')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.15 }, offset: { x: 0, y: 10 }, radius: 15, spread: -3 });
+        } else if (classes.includes('shadow-md')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.1 }, offset: { x: 0, y: 4 }, radius: 6, spread: -1 });
+        } else if (classes.includes('shadow-sm')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.08 }, offset: { x: 0, y: 1 }, radius: 2, spread: 0 });
+        } else if (classes.includes('shadow')) {
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { r: 0, g: 0, b: 0, a: 0.1 }, offset: { x: 0, y: 1 }, radius: 3, spread: 0 });
+        }
+        // Colored shadows (shadow-emerald-500/30)
+        const coloredShadowMatch = classes.match(/shadow-(\w+-\d+)\/(\d+)/);
+        if (coloredShadowMatch && TAILWIND_COLORS[coloredShadowMatch[1]]) {
+            const shadowColor = hexToRgb(TAILWIND_COLORS[coloredShadowMatch[1]]);
+            const shadowOpacity = parseInt(coloredShadowMatch[2]) / 100;
+            shadowEffects.push({ type: 'DROP_SHADOW', visible: true, color: { ...shadowColor, a: shadowOpacity }, offset: { x: 0, y: 10 }, radius: 20, spread: 0 });
+        }
+        if (shadowEffects.length > 0) {
+            node.effects = shadowEffects;
+        }
+    }
+
+    // ============================================
+    // BLUR EFFECTS (blur, backdrop-blur)
+    // ============================================
+    if (classes.includes('blur-')) {
+        const blurMatch = classes.match(/blur-\[(\d+)px\]/) || classes.match(/blur-(sm|md|lg|xl|2xl|3xl)/);
+        if (blurMatch) {
+            let blurRadius = 8;
+            if (blurMatch[1] === 'sm') blurRadius = 4;
+            else if (blurMatch[1] === 'md') blurRadius = 12;
+            else if (blurMatch[1] === 'lg') blurRadius = 16;
+            else if (blurMatch[1] === 'xl') blurRadius = 24;
+            else if (blurMatch[1] === '2xl') blurRadius = 40;
+            else if (blurMatch[1] === '3xl') blurRadius = 64;
+            else if (!isNaN(parseInt(blurMatch[1]))) blurRadius = parseInt(blurMatch[1]);
+
+            node.effects = node.effects || [];
+            node.effects.push({ type: 'LAYER_BLUR', visible: true, radius: blurRadius });
+        }
+    }
+    if (classes.includes('backdrop-blur')) {
+        const backdropBlurMatch = classes.match(/backdrop-blur-(sm|md|lg|xl|2xl|3xl)/) || classes.match(/backdrop-blur-\[(\d+)px\]/);
+        let blurRadius = 12;
+        if (backdropBlurMatch) {
+            if (backdropBlurMatch[1] === 'sm') blurRadius = 4;
+            else if (backdropBlurMatch[1] === 'md') blurRadius = 12;
+            else if (backdropBlurMatch[1] === 'lg') blurRadius = 16;
+            else if (backdropBlurMatch[1] === 'xl') blurRadius = 24;
+            else if (!isNaN(parseInt(backdropBlurMatch[1]))) blurRadius = parseInt(backdropBlurMatch[1]);
+        }
+        node.effects = node.effects || [];
+        node.effects.push({ type: 'BACKGROUND_BLUR', visible: true, radius: blurRadius });
+    }
+
+    // ============================================
+    // BORDER LOGIC
+    // ============================================
+    if (classes.includes('border')) {
+        node.strokes = [{ type: "SOLID", color: hexToRgb('3f3f46'), visible: true }]; // zinc-700
+        node.strokeWeight = 1;
+        node.strokeAlign = 'INSIDE';
+
+        // Specific border colors
+        const borderColorMatch = classes.match(/border-(\w+-\d+)/);
+        if (borderColorMatch && TAILWIND_COLORS[borderColorMatch[1]]) {
+            node.strokes = [{ type: "SOLID", color: hexToRgb(TAILWIND_COLORS[borderColorMatch[1]]), visible: true }];
+        }
+        // Border opacity
+        const borderOpacityMatch = classes.match(/border-white\/(\d+)/);
+        if (borderOpacityMatch) {
+            node.strokes = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, visible: true, opacity: parseInt(borderOpacityMatch[1]) / 100 }];
+        }
+        // Border width
+        const borderWidthMatch = classes.match(/border-(\d+)/);
+        if (borderWidthMatch) {
+            node.strokeWeight = parseInt(borderWidthMatch[1]);
+        }
+    }
+
+    // ============================================
+    // LAYOUT (Flexbox -> Auto Layout)
+    // ============================================
     if (classes.includes('flex')) {
         node.layoutMode = classes.includes('flex-col') ? "VERTICAL" : "HORIZONTAL";
-        node.primaryAxisAlignItems = classes.includes('justify-center') ? "CENTER" : classes.includes('justify-between') ? "SPACE_BETWEEN" : classes.includes('justify-end') ? "MAX" : "MIN";
-        node.counterAxisAlignItems = classes.includes('items-center') ? "CENTER" : classes.includes('items-end') ? "MAX" : "MIN";
+
+        // Primary Axis (justify-*)
+        if (classes.includes('justify-center')) node.primaryAxisAlignItems = "CENTER";
+        else if (classes.includes('justify-between')) node.primaryAxisAlignItems = "SPACE_BETWEEN";
+        else if (classes.includes('justify-around')) node.primaryAxisAlignItems = "SPACE_BETWEEN"; // Closest approximation
+        else if (classes.includes('justify-evenly')) node.primaryAxisAlignItems = "SPACE_BETWEEN";
+        else if (classes.includes('justify-end')) node.primaryAxisAlignItems = "MAX";
+        else node.primaryAxisAlignItems = "MIN";
+
+        // Counter Axis (items-*)
+        if (classes.includes('items-center')) node.counterAxisAlignItems = "CENTER";
+        else if (classes.includes('items-end')) node.counterAxisAlignItems = "MAX";
+        else if (classes.includes('items-stretch')) node.counterAxisAlignItems = "STRETCH";
+        else if (classes.includes('items-baseline')) node.counterAxisAlignItems = "BASELINE";
+        else node.counterAxisAlignItems = "MIN";
 
         // Gap
         const gapMatch = classes.match(/gap-(\d+)/);
         if (gapMatch) node.itemSpacing = parseInt(gapMatch[1]) * 4;
+        const gapXMatch = classes.match(/gap-x-(\d+)/);
+        if (gapXMatch && node.layoutMode === 'HORIZONTAL') node.itemSpacing = parseInt(gapXMatch[1]) * 4;
+        const gapYMatch = classes.match(/gap-y-(\d+)/);
+        if (gapYMatch && node.layoutMode === 'VERTICAL') node.itemSpacing = parseInt(gapYMatch[1]) * 4;
 
         // Padding
-        const pMatch = classes.match(/p-(\d+)/);
+        const pMatch = classes.match(/\bp-(\d+)\b/);
         if (pMatch) {
             const p = parseInt(pMatch[1]) * 4;
             node.paddingTop = node.paddingBottom = node.paddingLeft = node.paddingRight = p;
-        } else {
-            // Individual padding
-            const pxMatch = classes.match(/px-(\d+)/);
-            const pyMatch = classes.match(/py-(\d+)/);
-            const ptMatch = classes.match(/pt-(\d+)/);
-            const pbMatch = classes.match(/pb-(\d+)/);
-
-            if (pxMatch) node.paddingLeft = node.paddingRight = parseInt(pxMatch[1]) * 4;
-            if (pyMatch) node.paddingTop = node.paddingBottom = parseInt(pyMatch[1]) * 4;
-            if (ptMatch) node.paddingTop = parseInt(ptMatch[1]) * 4;
-            if (pbMatch) node.paddingBottom = parseInt(pbMatch[1]) * 4;
         }
+        // Individual padding (px, py, pt, pb, pl, pr)
+        const pxMatch = classes.match(/\bpx-(\d+)\b/);
+        const pyMatch = classes.match(/\bpy-(\d+)\b/);
+        const ptMatch = classes.match(/\bpt-(\d+)\b/);
+        const pbMatch = classes.match(/\bpb-(\d+)\b/);
+        const plMatch = classes.match(/\bpl-(\d+)\b/);
+        const prMatch = classes.match(/\bpr-(\d+)\b/);
+
+        if (pxMatch) node.paddingLeft = node.paddingRight = parseInt(pxMatch[1]) * 4;
+        if (pyMatch) node.paddingTop = node.paddingBottom = parseInt(pyMatch[1]) * 4;
+        if (ptMatch) node.paddingTop = parseInt(ptMatch[1]) * 4;
+        if (pbMatch) node.paddingBottom = parseInt(pbMatch[1]) * 4;
+        if (plMatch) node.paddingLeft = parseInt(plMatch[1]) * 4;
+        if (prMatch) node.paddingRight = parseInt(prMatch[1]) * 4;
+
+        // Wrap
+        if (classes.includes('flex-wrap')) node.layoutWrap = 'WRAP';
     }
 
-    // Corner Radius
+    // ============================================
+    // CORNER RADIUS
+    // ============================================
     if (classes.includes('rounded-full')) node.cornerRadius = 999;
     else if (classes.includes('rounded-3xl')) node.cornerRadius = 24;
+    else if (classes.includes('rounded-2xl')) node.cornerRadius = 16;
     else if (classes.includes('rounded-xl')) node.cornerRadius = 12;
     else if (classes.includes('rounded-lg')) node.cornerRadius = 8;
     else if (classes.includes('rounded-md')) node.cornerRadius = 6;
+    else if (classes.includes('rounded-sm')) node.cornerRadius = 2;
+    else if (classes.includes('rounded')) node.cornerRadius = 4;
+    // Arbitrary radius
+    const radiusMatch = classes.match(/rounded-\[(\d+)px\]/);
+    if (radiusMatch) node.cornerRadius = parseInt(radiusMatch[1]);
 
-    if (hasImage) {
+    // ============================================
+    // ELEMENT TYPE HANDLING
+    // ============================================
+    if (isSvg) {
+        // Treat SVG as a rectangle placeholder
+        node.type = "RECTANGLE";
+        node.name = "Icon";
+        node.fills = node.fills || [{ type: "SOLID", color: { r: 0.7, g: 0.7, b: 0.7 }, visible: true }];
+    } else if (hasImage) {
         node.type = "RECTANGLE";
         node.name = "Image";
-        node.fills = [{ type: "SOLID", color: { r: 0.8, g: 0.8, b: 0.8 } }];
+        // Try to get actual dimensions from the img element
+        const imgWidth = el.getAttribute('width');
+        const imgHeight = el.getAttribute('height');
+        if (imgWidth) node.width = parseInt(imgWidth);
+        if (imgHeight) node.height = parseInt(imgHeight);
+        node.fills = [{ type: "SOLID", color: { r: 0.85, g: 0.85, b: 0.85 }, visible: true }]; // Light gray placeholder
     } else if (isText) {
         node.type = "TEXT";
-        node.characters = el.textContent || "";
-        node.fills = [];
+        node.characters = el.textContent?.trim() || "";
+        node.fills = node.fills || [];
 
         // Text Color
-        const textMatch = classes.match(/text-\[#([0-9a-fA-F]+)\]/);
-        if (textMatch) {
-            node.fills = [{ type: "SOLID", color: hexToRgb(textMatch[1]) }];
-        } else if (classes.includes('text-foreground')) {
-            node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }]; // White
-        } else if (classes.includes('text-muted-foreground')) {
-            node.fills = [{ type: "SOLID", color: hexToRgb('b3b3b3') }];
-        } else if (classes.includes('text-primary')) {
-            node.fills = [{ type: "SOLID", color: hexToRgb('10a37f') }];
-        } else if (classes.includes('text-white')) {
-            node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
-        } else if (classes.includes('text-black')) {
-            node.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 } }];
+        const textHexMatch = classes.match(/text-\[#([0-9a-fA-F]{3,6})\]/);
+        if (textHexMatch) {
+            node.fills = [{ type: "SOLID", color: hexToRgb(textHexMatch[1]), visible: true }];
         } else {
-            node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 } }];
+            const textPaletteMatch = classes.match(/text-(\w+-\d+)/);
+            if (textPaletteMatch && TAILWIND_COLORS[textPaletteMatch[1]]) {
+                node.fills = [{ type: "SOLID", color: hexToRgb(TAILWIND_COLORS[textPaletteMatch[1]]), visible: true }];
+            }
+            else if (classes.includes('text-foreground') || classes.includes('text-white')) {
+                node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, visible: true }];
+            } else if (classes.includes('text-muted-foreground')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('a1a1aa'), visible: true }]; // zinc-400
+            } else if (classes.includes('text-primary')) {
+                node.fills = [{ type: "SOLID", color: hexToRgb('10b981'), visible: true }]; // emerald-500
+            } else if (classes.includes('text-black')) {
+                node.fills = [{ type: "SOLID", color: { r: 0, g: 0, b: 0 }, visible: true }];
+            } else {
+                // Default text color (white for dark theme)
+                node.fills = [{ type: "SOLID", color: { r: 1, g: 1, b: 1 }, visible: true }];
+            }
         }
 
         // Font Size
@@ -552,23 +847,53 @@ function elementToNode(el: HTMLElement): any {
         else if (classes.includes('text-xl')) node.fontSize = 20;
         else if (classes.includes('text-2xl')) node.fontSize = 24;
         else if (classes.includes('text-3xl')) node.fontSize = 30;
+        else if (classes.includes('text-4xl')) node.fontSize = 36;
+        else if (classes.includes('text-5xl')) node.fontSize = 48;
         else node.fontSize = 16;
+        // Arbitrary font size
+        const fontSizeMatch = classes.match(/text-\[(\d+)px\]/);
+        if (fontSizeMatch) node.fontSize = parseInt(fontSizeMatch[1]);
 
         // Font Weight
-        if (classes.includes('font-bold')) node.fontName = { family: "Inter", style: "Bold" };
+        if (classes.includes('font-black')) node.fontName = { family: "Inter", style: "Black" };
+        else if (classes.includes('font-extrabold')) node.fontName = { family: "Inter", style: "ExtraBold" };
+        else if (classes.includes('font-bold')) node.fontName = { family: "Inter", style: "Bold" };
+        else if (classes.includes('font-semibold')) node.fontName = { family: "Inter", style: "SemiBold" };
         else if (classes.includes('font-medium')) node.fontName = { family: "Inter", style: "Medium" };
+        else if (classes.includes('font-light')) node.fontName = { family: "Inter", style: "Light" };
         else node.fontName = { family: "Inter", style: "Regular" };
 
+        // Text Alignment
+        if (classes.includes('text-center')) node.textAlignHorizontal = 'CENTER';
+        else if (classes.includes('text-right')) node.textAlignHorizontal = 'RIGHT';
+        else node.textAlignHorizontal = 'LEFT';
+
+        // Letter Spacing
+        if (classes.includes('tracking-tight')) node.letterSpacing = { value: -0.025, unit: 'PERCENT' };
+        else if (classes.includes('tracking-wide')) node.letterSpacing = { value: 0.025, unit: 'PERCENT' };
+        else if (classes.includes('tracking-widest')) node.letterSpacing = { value: 0.1, unit: 'PERCENT' };
+
+        // Line Height
+        if (classes.includes('leading-tight')) node.lineHeight = { value: 125, unit: 'PERCENT' };
+        else if (classes.includes('leading-relaxed')) node.lineHeight = { value: 165, unit: 'PERCENT' };
+        else if (classes.includes('leading-loose')) node.lineHeight = { value: 200, unit: 'PERCENT' };
+
     } else {
-        // Recursively add children
-        const children = Array.from(el.children).map(child => elementToNode(child as HTMLElement));
+        // Recursively add children for container elements
+        const children = Array.from(el.children)
+            .filter(child => !['SCRIPT', 'STYLE', 'NOSCRIPT', 'META', 'LINK'].includes(child.tagName))
+            .map(child => elementToNode(child as HTMLElement));
         node.children = children;
     }
 
     return node;
 }
 
-function hexToRgb(hex: string) {
+function hexToRgb(hex: string): { r: number, g: number, b: number } {
+    // Handle 3-char hex
+    if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+    }
     const bigint = parseInt(hex, 16);
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Clipboard Test for Figma</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        h1 {
+            color: #10b981;
+        }
+
+        h2 {
+            color: #3b82f6;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        .success {
+            background: #10b981;
+            color: white;
+        }
+
+        .primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        pre {
+            background: #2a2a2a;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow: auto;
+            max-height: 200px;
+            font-size: 11px;
+            white-space: pre-wrap;
+        }
+
+        .preview-box {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .status.success-msg {
+            background: #065f46;
+        }
+
+        .status.error-msg {
+            background: #7f1d1d;
+        }
+
+        .status.info-msg {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎯 SVG Clipboard Test for Figma</h1>
+    <p>ทดสอบว่า Figma รับ SVG format ไหน</p>
+
+    <h2>📦 Test SVG (Simple Shape)</h2>
+    <div class="preview-box">
+        <svg id="testSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#10b981" />
+                    <stop offset="100%" style="stop-color:#3b82f6" />
+                </linearGradient>
+            </defs>
+            <!-- Background -->
+            <rect width="200" height="200" rx="16" fill="url(#grad1)" />
+            <!-- Icon circle -->
+            <circle cx="100" cy="80" r="40" fill="white" opacity="0.9" />
+            <!-- Text -->
+            <text x="100" y="150" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Test Card</text>
+            <text x="100" y="175" text-anchor="middle" fill="white" font-size="12" opacity="0.8">Click copy below</text>
+        </svg>
+    </div>
+
+    <h2>🔧 Copy Methods</h2>
+
+    <button class="primary" onclick="copyMethod1()">1️⃣ image/svg+xml Blob</button>
+    <button class="primary" onclick="copyMethod2()">2️⃣ text/plain Blob</button>
+    <button class="secondary" onclick="copyMethod3()">3️⃣ execCommand (textarea)</button>
+    <button class="success" onclick="copyMethod4()">4️⃣ writeText (plain)</button>
+
+    <div id="status" class="status info-msg">Click a button to test clipboard copy</div>
+
+    <h2>📋 SVG Content Being Copied:</h2>
+    <pre id="svgPreview">...</pre>
+
+    <h2>📝 Instructions:</h2>
+    <ol>
+        <li>Click one of the copy buttons above</li>
+        <li>Open Figma canvas</li>
+        <li>Press <kbd>Cmd+V</kbd> (Mac) or <kbd>Ctrl+V</kbd> (Windows)</li>
+        <li>Check what appears - report which method works!</li>
+    </ol>
+
+    <script>
+        const testSvg = document.getElementById('testSvg');
+        const svgPreview = document.getElementById('svgPreview');
+        const statusDiv = document.getElementById('status');
+
+        // Get SVG string
+        function getSvgString() {
+            const svgClone = testSvg.cloneNode(true);
+            // Ensure namespace is present
+            if (!svgClone.hasAttribute('xmlns')) {
+                svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            }
+            return new XMLSerializer().serializeToString(svgClone);
+        }
+
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type + '-msg';
+            console.log(message);
+        }
+
+        // Show SVG content
+        const svgStr = getSvgString();
+        svgPreview.textContent = svgStr;
+
+        // Method 1: image/svg+xml Blob (Recommended by guide)
+        async function copyMethod1() {
+            showStatus('⏳ Trying image/svg+xml blob...', 'info');
+            try {
+                const svg = getSvgString();
+                const blob = new Blob([svg], { type: 'image/svg+xml' });
+                const item = new ClipboardItem({ 'image/svg+xml': blob });
+                await navigator.clipboard.write([item]);
+                showStatus('✅ Method 1 SUCCESS: image/svg+xml copied! Try paste in Figma', 'success');
+            } catch (err) {
+                showStatus('❌ Method 1 FAILED: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // Method 2: text/plain Blob
+        async function copyMethod2() {
+            showStatus('⏳ Trying text/plain blob...', 'info');
+            try {
+                const svg = getSvgString();
+                const blob = new Blob([svg], { type: 'text/plain' });
+                const item = new ClipboardItem({ 'text/plain': blob });
+                await navigator.clipboard.write([item]);
+                showStatus('✅ Method 2 SUCCESS: text/plain blob copied! Try paste in Figma', 'success');
+            } catch (err) {
+                showStatus('❌ Method 2 FAILED: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // Method 3: execCommand with textarea (widest compatibility)
+        async function copyMethod3() {
+            showStatus('⏳ Trying execCommand...', 'info');
+            try {
+                const svg = getSvgString();
+                const textarea = document.createElement('textarea');
+                textarea.value = svg;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, svg.length);
+
+                const success = document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                if (success) {
+                    showStatus('✅ Method 3 SUCCESS: execCommand copied! Try paste in Figma', 'success');
+                } else {
+                    showStatus('❌ Method 3 FAILED: execCommand returned false', 'error');
+                }
+            } catch (err) {
+                showStatus('❌ Method 3 FAILED: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // Method 4: Simple writeText
+        async function copyMethod4() {
+            showStatus('⏳ Trying writeText...', 'info');
+            try {
+                const svg = getSvgString();
+                await navigator.clipboard.writeText(svg);
+                showStatus('✅ Method 4 SUCCESS: writeText copied! Try paste in Figma', 'success');
+            } catch (err) {
+                showStatus('❌ Method 4 FAILED: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+
+</html>

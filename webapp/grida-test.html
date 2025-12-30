@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grida Exact Test - Copy to Figma</title>
+    <style>
+        body {
+            font-family: system-ui;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .success {
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow: auto;
+            max-height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 Grida Exact Test - Copy to Figma</h1>
+    <p>This test uses the <strong>exact structure</strong> from Grida's working test case.</p>
+
+    <button class="success" onclick="copyGridaExactTest()">
+        📋 Copy Grida Test ELLIPSE to Figma
+    </button>
+
+    <pre id="output">Click button to see output...</pre>
+
+    <script type="module">
+        import { deflateSync } from 'https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm';
+        import { compileSchema, encodeBinarySchema } from 'https://cdn.jsdelivr.net/npm/kiwi-schema@0.6.0/+esm';
+
+        // Use the exact same schema as our app
+        const schemaText = await fetch('/src/lib/figma-schema.ts')
+            .then(r => r.text())
+            .then(text => {
+                // Extract schema text from the file
+                const match = text.match(/const schemaText = `([\s\S]*?)`;/);
+                return match ? match[1] : null;
+            });
+
+        if (!schemaText) {
+            document.getElementById('output').textContent = 'Failed to load schema';
+            throw new Error('Schema not found');
+        }
+
+        // Grida's exact constants
+        const FIG_KIWI_PRELUDE = 'fig-kiwi';
+        const FIG_KIWI_VERSION = 15;
+        const HTML_MARKERS = {
+            metaStart: '<!--(figmeta)',
+            metaEnd: '(/figmeta)-->',
+            figmaStart: '<!--(figma)',
+            figmaEnd: '(/figma)-->'
+        };
+
+        // Grida's FigmaArchiveWriter
+        class FigmaArchiveWriter {
+            constructor() {
+                this.header = { prelude: FIG_KIWI_PRELUDE, version: FIG_KIWI_VERSION };
+                this.files = [];
+            }
+
+            write() {
+                const headerSize = FIG_KIWI_PRELUDE.length + 4;
+                const totalSize = this.files.reduce((sz, f) => sz + 4 + f.byteLength, headerSize);
+                const buffer = new Uint8Array(totalSize);
+                const view = new DataView(buffer.buffer);
+                const enc = new TextEncoder();
+
+                let offset = enc.encodeInto(FIG_KIWI_PRELUDE, buffer).written;
+                view.setUint32(offset, this.header.version, true);
+                offset += 4;
+
+                for (const file of this.files) {
+                    view.setUint32(offset, file.byteLength, true);
+                    offset += 4;
+                    buffer.set(file, offset);
+                    offset += file.byteLength;
+                }
+                return buffer;
+            }
+        }
+
+        // Parse schema
+        const { parseSchema } = await import('https://cdn.jsdelivr.net/npm/kiwi-schema@0.6.0/+esm');
+        const defaultSchema = parseSchema(schemaText);
+
+        function writeFigFile(message) {
+            const compiledSchema = compileSchema(defaultSchema);
+            const binSchema = encodeBinarySchema(defaultSchema);
+            const writer = new FigmaArchiveWriter();
+            writer.files = [
+                deflateSync(binSchema),
+                deflateSync(compiledSchema.encodeMessage(message))
+            ];
+            return writer.write();
+        }
+
+        function composeHTMLString(meta, figma) {
+            const metaStr = btoa(JSON.stringify(meta) + '\n');
+            // Use proper base64 encoding for Uint8Array
+            const figStr = btoa(String.fromCharCode(...figma));
+            return `<meta charset="utf-8" /><span data-metadata="${HTML_MARKERS.metaStart}${metaStr}${HTML_MARKERS.metaEnd}"></span><span data-buffer="${HTML_MARKERS.figmaStart}${figStr}${HTML_MARKERS.figmaEnd}"></span><span style="white-space: pre-wrap"></span>`;
+        }
+
+        // Grida's EXACT test message
+        window.copyGridaExactTest = async function () {
+            try {
+                // EXACT node from Grida's test
+                const nodeToCreate = {
+                    guid: { sessionID: 13, localID: 2 },
+                    phase: "CREATED",
+                    parentIndex: {
+                        guid: { sessionID: 0, localID: 1 },
+                        position: "!"
+                    },
+                    type: "ELLIPSE",
+                    name: "Butterfly " + Math.floor(Math.random() * 1000),
+                    visible: true,
+                    locked: false,
+                    opacity: 1,
+                    size: { x: 310, y: 310 },
+                    fillPaints: [{
+                        type: "SOLID",
+                        color: { r: Math.random(), g: Math.random(), b: Math.random(), a: 1 },
+                        opacity: 1,
+                        visible: true,
+                        blendMode: "NORMAL"
+                    }]
+                };
+
+                // EXACT message from Grida's test
+                const message = {
+                    type: "NODE_CHANGES",
+                    sessionID: 0,
+                    ackID: 0,
+                    pasteID: 1180497570,
+                    pasteFileKey: "vDQhnT3wvDCl0P7UjANY7L",
+                    pasteIsPartiallyOutsideEnclosingFrame: false,
+                    pastePageId: { sessionID: 0, localID: 1 },
+                    isCut: false,
+                    pasteEditorType: "DESIGN",
+                    nodeChanges: [
+                        {
+                            guid: { sessionID: 0, localID: 1 },
+                            phase: "CREATED",
+                            parentIndex: {
+                                guid: { sessionID: 0, localID: 0 },
+                                position: "!"
+                            },
+                            type: "CANVAS",
+                            name: "Page 1",
+                            visible: true,
+                            opacity: 1,
+                            blendMode: "PASS_THROUGH",
+                            transform: { m00: 1, m01: 0, m02: 0, m10: 0, m11: 1, m12: 0 },
+                            backgroundEnabled: true,
+                            mask: false,
+                            maskIsOutline: false,
+                            backgroundOpacity: 1,
+                            backgroundColor: { r: 0.11764705926179886, g: 0.11764705926179886, b: 0.11764705926179886, a: 1 },
+                            exportBackgroundDisabled: false
+                        },
+                        nodeToCreate
+                    ]
+                };
+
+                console.log('📝 Message:', JSON.stringify(message, null, 2));
+
+                const figmaData = writeFigFile(message);
+                console.log('✅ Archive size:', figmaData.length, 'bytes');
+
+                const meta = { fileKey: "abcd", pasteID: 1234, dataType: "scene" };
+                const html = composeHTMLString(meta, figmaData);
+
+                console.log('✅ HTML length:', html.length);
+
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        'text/html': new Blob([html], { type: 'text/html' }),
+                        'text/plain': new Blob([JSON.stringify(message)], { type: 'text/plain' })
+                    })
+                ]);
+
+                document.getElementById('output').textContent =
+                    `✅ SUCCESS!\n\nArchive: ${figmaData.length} bytes\nHTML: ${html.length} chars\n\nNow paste (Cmd+V) into Figma!\n\n--- Message ---\n${JSON.stringify(message, null, 2)}`;
+
+                alert('Copied! Now paste into Figma (Cmd+V)');
+
+            } catch (err) {
+                console.error('❌ Error:', err);
+                document.getElementById('output').textContent = `❌ ERROR: ${err.message}\n\n${err.stack}`;
+            }
+        };
+    </script>
+</body>
+
+</html>

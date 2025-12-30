@@ -1,0 +1,290 @@
+{
+  "type": "NODE_CHANGES",
+  "sessionID": 0,
+  "ackID": 0,
+  "nodeChanges": [
+    {
+      "guid": {
+        "sessionID": 0,
+        "localID": 0
+      },
+      "phase": "CREATED",
+      "type": "DOCUMENT",
+      "name": "Document",
+      "visible": true,
+      "opacity": 1,
+      "blendMode": "PASS_THROUGH",
+      "mask": false,
+      "maskType": "ALPHA"
+    },
+    {
+      "guid": {
+        "sessionID": 0,
+        "localID": 1
+      },
+      "phase": "CREATED",
+      "parentIndex": {
+        "guid": {
+          "sessionID": 0,
+          "localID": 0
+        },
+        "position": "!"
+      },
+      "type": "CANVAS",
+      "name": "Stitch Design",
+      "visible": true,
+      "opacity": 1,
+      "blendMode": "PASS_THROUGH",
+      "transform": {
+        "m00": 1,
+        "m01": 0,
+        "m02": 0,
+        "m10": 0,
+        "m11": 1,
+        "m12": 0
+      },
+      "mask": false,
+      "maskIsOutline": false,
+      "backgroundOpacity": 1,
+      "backgroundColor": {
+        "r": 0.11999999731779099,
+        "g": 0.11999999731779099,
+        "b": 0.11999999731779099,
+        "a": 1
+      },
+      "backgroundEnabled": true,
+      "exportBackgroundDisabled": false
+    },
+    {
+      "guid": {
+        "sessionID": 13,
+        "localID": 2
+      },
+      "phase": "CREATED",
+      "parentIndex": {
+        "guid": {
+          "sessionID": 0,
+          "localID": 1
+        },
+        "position": "!"
+      },
+      "type": "FRAME",
+      "name": "tooltip",
+      "visible": true,
+      "locked": false,
+      "opacity": 1,
+      "size": {
+        "x": 117,
+        "y": 34
+      },
+      "transform": {
+        "m00": 1,
+        "m01": 0,
+        "m02": 337.5,
+        "m10": 0,
+        "m11": 1,
+        "m12": 236
+      },
+      "mask": false,
+      "maskType": "ALPHA",
+      "strokeWeight": 1,
+      "strokeAlign": "OUTSIDE",
+      "strokeCap": "NONE",
+      "strokeJoin": "MITER",
+      "fillPaints": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1,
+            "a": 1
+          },
+          "opacity": 1,
+          "visible": true,
+          "blendMode": "NORMAL",
+          "transform": {
+            "m00": 1,
+            "m01": 0,
+            "m02": 0,
+            "m10": 0,
+            "m11": 1,
+            "m12": 0
+          }
+        }
+      ],
+      "strokePaints": [],
+      "effects": [
+        {
+          "type": "INNER_SHADOW",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 4,
+          "visible": true,
+          "spread": 0,
+          "color": {
+            "r": 0.11764705926179886,
+            "g": 0.16078431904315948,
+            "b": 0.23137255012989044,
+            "a": 0.25
+          }
+        }
+      ],
+      "proportionsConstrained": false,
+      "horizontalConstraint": "MIN",
+      "stackChildAlignSelf": "STRETCH",
+      "miterLimit": 4,
+      "textTracking": 0,
+      "verticalConstraint": "MIN",
+      "handleMirroring": "NONE"
+    },
+    {
+      "guid": {
+        "sessionID": 13,
+        "localID": 3
+      },
+      "phase": "CREATED",
+      "parentIndex": {
+        "guid": {
+          "sessionID": 13,
+          "localID": 2
+        },
+        "position": "!"
+      },
+      "type": "TEXT",
+      "name": "Add to library",
+      "fontSize": 14,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "lineHeight": {
+        "value": 20,
+        "units": "PIXELS"
+      },
+      "fontName": {
+        "family": "Inter",
+        "style": "Medium",
+        "postscript": "Inter-Medium"
+      },
+      "textData": {
+        "characters": "Add to library",
+        "characterStyleIDs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "lines": [
+          {
+            "lineType": "PLAIN",
+            "styleId": 0,
+            "indentationLevel": 0,
+            "sourceDirectionality": "AUTO",
+            "listStartOffset": 0,
+            "isFirstLineOfList": false
+          }
+        ],
+        "layoutVersion": 9,
+        "layoutSize": {
+          "x": 91,
+          "y": 20
+        }
+      },
+      "fontVariantCommonLigatures": true,
+      "fontVariantContextualLigatures": true,
+      "fontVariantDiscretionaryLigatures": true,
+      "fontVariantHistoricalLigatures": false,
+      "fontVariantOrdinal": false,
+      "fontVariantSlashedZero": false,
+      "fontVariantNumericFigure": "NORMAL",
+      "fontVariantNumericSpacing": "NORMAL",
+      "fontVariantNumericFraction": "NORMAL",
+      "fontVariantCaps": "NORMAL",
+      "fontVariantPosition": "NORMAL",
+      "letterSpacing": {
+        "value": 0,
+        "units": "PIXELS"
+      },
+      "fontVersion": "2",
+      "textUserLayoutVersion": 4,
+      "toggledOnOTFeatures": [],
+      "toggledOffOTFeatures": [],
+      "textBidiVersion": 1,
+      "visible": true,
+      "locked": false,
+      "opacity": 1,
+      "size": {
+        "x": 91,
+        "y": 20
+      },
+      "transform": {
+        "m00": 1,
+        "m01": 0,
+        "m02": 13,
+        "m10": 0,
+        "m11": 1,
+        "m12": 7
+      },
+      "mask": false,
+      "maskType": "ALPHA",
+      "strokeWeight": 1,
+      "strokeAlign": "OUTSIDE",
+      "strokeCap": "NONE",
+      "strokeJoin": "MITER",
+      "fillPaints": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "opacity": 1,
+          "visible": true,
+          "blendMode": "NORMAL",
+          "transform": {
+            "m00": 1,
+            "m01": 0,
+            "m02": 0,
+            "m10": 0,
+            "m11": 1,
+            "m12": 0
+          }
+        }
+      ],
+      "strokePaints": [],
+      "proportionsConstrained": false,
+      "horizontalConstraint": "MIN",
+      "stackChildAlignSelf": "STRETCH",
+      "autoRename": true,
+      "miterLimit": 4,
+      "textTracking": 0,
+      "verticalConstraint": "MIN",
+      "textAutoResize": "WIDTH_AND_HEIGHT",
+      "handleMirroring": "NONE"
+    }
+  ],
+  "blobs": [],
+  "blobBaseIndex": 0,
+  "pasteID": 1686871594,
+  "pasteFileKey": "IAMA_DUMMY_FILE_KEY_AMA",
+  "pasteIsPartiallyOutsideEnclosingFrame": false,
+  "pastePageId": {
+    "sessionID": 0,
+    "localID": 1
+  },
+  "isCut": false,
+  "pasteEditorType": "DESIGN"
+}

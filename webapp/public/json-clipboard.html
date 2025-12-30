@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>JSON → Figma Clipboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      font-family: "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 32px;
+      background: #0f1115;
+      color: #e6e7eb;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+    p {
+      margin: 0 0 20px;
+      color: #9aa0ad;
+    }
+    textarea {
+      width: 100%;
+      min-height: 240px;
+      background: #131720;
+      color: #e6e7eb;
+      border: 1px solid #222837;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 14px;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+    }
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(120deg, #00c6ff, #0081ff);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 129, 255, 0.25);
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(0, 129, 255, 0.32);
+    }
+    .row {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .log {
+      background: #0c0f17;
+      border: 1px solid #1e2433;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 16px;
+      min-height: 120px;
+      font-family: "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+    .inline {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .small {
+      color: #768099;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON → Figma Clipboard</h1>
+  <p>
+    วาง JSON node จาก Figma (เช่นที่ decode แล้ว) แล้วกด “สร้างและ Copy” ระบบจะสร้าง meta HTML (fig-kiwi) ให้พร้อมวางใน Figma ได้ทันที
+  </p>
+
+  <div class="row">
+    <label class="small">ใส่ JSON ที่นี่ (รองรับ object เดี่ยวหรือ array ของ nodeChanges)</label>
+    <textarea id="json-input" spellcheck="false" placeholder='{ "type": "FRAME", "name": "Card", "width": 320, "height": 180, "fills": [{ "type": "SOLID", "color": { "r": 0.1, "g": 0.1, "b": 0.1 } }] }'></textarea>
+    <div class="inline">
+      <button id="btn-run">สร้างและ Copy</button>
+      <span class="small">จะ wrap เป็น array ให้อัตโนมัติถ้าเป็น node เดี่ยว</span>
+    </div>
+  </div>
+
+  <div id="log" class="log">รอข้อมูล...</div>
+  <div class="row" id="result-box" style="display:none;">
+    <label class="small">HTML ที่สร้าง (สำรองเผื่อ copy ไม่ผ่าน)</label>
+    <textarea id="result-html" spellcheck="false" readonly></textarea>
+  </div>
+
+  <h2 style="margin-top:32px;">ถอดรหัส Figma Clipboard (fig-kiwi) → JSON</h2>
+  <p class="small">
+    วาง HTML clipboard ของ Figma (มี <code>&lt;!--(figma)...(/figma)--&gt;</code>) แล้วกด Decode เพื่อถอดเป็น JSON node (โครงสร้างใกล้เคียงตัวอย่างที่คุณส่งมา)
+  </p>
+  <div class="row">
+    <label class="small">วาง Figma clipboard HTML ที่นี่</label>
+    <textarea id="figma-html-input" spellcheck="false" placeholder="วาง HTML จากคลิปบอร์ด Figma"></textarea>
+    <div class="inline">
+      <button id="btn-decode">Decode Figma Clipboard</button>
+      <span class="small">ดึง base64 ระหว่าง <!--(figma)...(/figma)--></span>
+    </div>
+  </div>
+  <div class="row" id="decoded-box" style="display:none;">
+    <label class="small">JSON ที่ถอดได้</label>
+    <textarea id="decoded-json" spellcheck="false" readonly></textarea>
+  </div>
+
+  <script type="module">
+    import { createFigmaClipboardHTML } from '/src/lib/figma-encoder.ts';
+    import { compileSchema } from 'kiwi-schema';
+    import { inflateSync } from 'fflate';
+    import { defaultSchema } from '/src/lib/figma-schema.ts';
+
+    const input = document.getElementById('json-input');
+    const logEl = document.getElementById('log');
+    const btn = document.getElementById('btn-run');
+    const resultBox = document.getElementById('result-box');
+    const resultHtml = document.getElementById('result-html');
+    const figmaHtmlInput = document.getElementById('figma-html-input');
+    const btnDecode = document.getElementById('btn-decode');
+    const decodedBox = document.getElementById('decoded-box');
+    const decodedJson = document.getElementById('decoded-json');
+
+    // Detect file:// and warn (module imports/CORS จะไม่ทำงาน)
+    if (location.protocol === 'file:') {
+      log('⚠️ ต้องเปิดผ่านเซิร์ฟเวอร์ http/https (เช่น cd webapp && npm run dev แล้วเปิด http://localhost:3000/json-clipboard.html) เพราะ browser บล็อค import เมื่อใช้ file://');
+    }
+
+    function log(message) {
+      logEl.textContent = message;
+      console.log(message);
+    }
+
+    function validateColor(color, path, errors) {
+      if (!color || typeof color !== 'object') {
+        errors.push(`${path}: color ต้องเป็น object`);
+        return;
+      }
+      ['r', 'g', 'b'].forEach((k) => {
+        if (typeof color[k] !== 'number' || color[k] < 0 || color[k] > 1) {
+          errors.push(`${path}: color.${k} ควรเป็นตัวเลข 0-1`);
+        }
+      });
+    }
+
+    function hexToColorObj(hex) {
+      const cleaned = hex.replace('#', '');
+      if (![3, 6].includes(cleaned.length)) return null;
+      const full = cleaned.length === 3
+        ? cleaned.split('').map(c => c + c).join('')
+        : cleaned;
+      const num = parseInt(full, 16);
+      if (isNaN(num)) return null;
+      const r = ((num >> 16) & 255) / 255;
+      const g = ((num >> 8) & 255) / 255;
+      const b = (num & 255) / 255;
+      return { r, g, b, a: 1 };
+    }
+
+    function normalizeColors(node) {
+      if (!node || typeof node !== 'object') return node;
+      // Fills
+      if (Array.isArray(node.fills)) {
+        node.fills = node.fills.map((f) => {
+          if (f && typeof f.color === 'string' && f.color.startsWith('#')) {
+            const c = hexToColorObj(f.color);
+            if (c) f.color = c;
+          }
+          return f;
+        });
+      }
+      // Strokes
+      if (Array.isArray(node.strokes)) {
+        node.strokes = node.strokes.map((s) => {
+          if (s && typeof s.color === 'string' && s.color.startsWith('#')) {
+            const c = hexToColorObj(s.color);
+            if (c) s.color = c;
+          }
+          return s;
+        });
+      }
+      // Recurse children
+      if (Array.isArray(node.children)) {
+        node.children = node.children.map((ch) => normalizeColors(ch));
+      }
+      return node;
+    }
+
+    function validateNode(node, path = 'node') {
+      const errors = [];
+
+      if (!node || typeof node !== 'object') {
+        errors.push(`${path}: ไม่ใช่ object`);
+        return errors;
+      }
+
+      if (!node.type || typeof node.type !== 'string') {
+        errors.push(`${path}: ต้องมี type (FRAME/RECTANGLE/TEXT/...)`);
+      }
+      if (!node.name || typeof node.name !== 'string') {
+        errors.push(`${path}: ควรมี name (string)`);
+      }
+
+      const type = node.type;
+
+      // Common size check for non-TEXT shapes
+      if (type !== 'TEXT') {
+        if (typeof node.width !== 'number') {
+          errors.push(`${path}: ${type} ควรมี width (number)`);
+        }
+        if (typeof node.height !== 'number') {
+          errors.push(`${path}: ${type} ควรมี height (number)`);
+        }
+      }
+
+      // Type-specific checks
+      if (type === 'TEXT') {
+        if (typeof node.characters !== 'string' || node.characters.length === 0) {
+          errors.push(`${path}: TEXT ต้องมี characters`);
+        }
+        if (typeof node.fontSize !== 'number') {
+          errors.push(`${path}: TEXT ต้องมี fontSize (number)`);
+        }
+        if (!node.fontName || typeof node.fontName.family !== 'string' || typeof node.fontName.style !== 'string') {
+          errors.push(`${path}: TEXT ต้องมี fontName {family, style}`);
+        }
+        if (!Array.isArray(node.fills) || node.fills.length === 0) {
+          errors.push(`${path}: TEXT ควรมี fills อย่างน้อย 1 รายการ`);
+        } else {
+          node.fills.forEach((f, idx) => {
+            if (f.type === 'SOLID') validateColor(f.color, `${path}.fills[${idx}]`, errors);
+          });
+        }
+      } else {
+        if (Array.isArray(node.fills)) {
+          node.fills.forEach((f, idx) => {
+            if (f.type === 'SOLID') validateColor(f.color, `${path}.fills[${idx}]`, errors);
+          });
+        }
+      }
+
+      // Children
+      if (Array.isArray(node.children)) {
+        node.children.forEach((child, i) => {
+          errors.push(...validateNode(child, `${path}.children[${i}]`));
+        });
+      }
+
+      return errors;
+    }
+
+    function normalizePayload(value) {
+      // รองรับ node เดี่ยวหรือ array
+      if (Array.isArray(value)) return value;
+      return [value];
+    }
+
+    async function run() {
+      if (!btn) {
+        console.error('btn-run not found');
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'กำลังประมวลผล...';
+      log('🔄 กำลังแปลง...');
+      resultBox.style.display = 'none';
+      resultHtml.value = '';
+      let data;
+      try {
+        data = JSON.parse(input.value);
+      } catch (err) {
+        log('❌ JSON ไม่ถูกต้อง: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = 'สร้างและ Copy';
+        return;
+      }
+
+      // Normalize color strings (#hex) to rgba objects
+      const payload = normalizePayload(data).map((n) => normalizeColors(n));
+
+      // Validation
+      const validationErrors = [];
+      payload.forEach((n, idx) => {
+        validationErrors.push(...validateNode(n, `root[${idx}]`));
+      });
+
+      if (validationErrors.length > 0) {
+        log('⚠️ พบปัญหาในโครงสร้าง:\n- ' + validationErrors.join('\n- '));
+        // ไม่บล็อกการแปลง แต่แจ้งเตือนก่อน
+      } else {
+        log('✅ โครงสร้าง JSON ดูครบถ้วน กำลังแปลง...');
+      }
+
+      try {
+        const result = await createFigmaClipboardHTML(payload);
+        if (!result.success || !result.html) {
+          log('❌ แปลงไม่สำเร็จ: ' + (result.error || 'unknown error'));
+          btn.disabled = false;
+          btn.textContent = 'สร้างและ Copy';
+          return;
+        }
+
+        const blob = new Blob([result.html], { type: 'text/html' });
+        let copied = false;
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': blob,
+              'text/plain': new Blob([''], { type: 'text/plain' })
+            })
+          ]);
+          copied = true;
+        } catch (err) {
+          // Fallback: try writeText (จะเสีย meta แต่ให้ copy manual ได้)
+          try {
+            await navigator.clipboard.writeText(result.html);
+            log('⚠️ คัดลอกเป็น text/plain (meta หาย) เพราะ clipboard HTML ไม่ได้รับอนุญาต/ไม่ใช่ https หรือ localhost');
+            copied = true;
+          } catch (err2) {
+            log('⚠️ คัดลอกอัตโนมัติไม่สำเร็จ อาจต้องเปิดผ่าน localhost/https หรืออนุญาต clipboard: ' + err2.message);
+          }
+        }
+
+        const preview = result.html.slice(0, 220).replace(/\s+/g, ' ');
+        if (copied) {
+          log('✅ สำเร็จ! คัดลอกแล้ว ไปวางใน Figma ได้เลย\n\n📦 html length: ' + result.html.length + '\n🔍 preview: ' + preview + '...');
+        }
+        resultBox.style.display = 'grid';
+        resultHtml.value = result.html;
+      } catch (err) {
+        log('❌ เกิดข้อผิดพลาด: ' + err.message);
+        console.error(err);
+      }
+      btn.disabled = false;
+      btn.textContent = 'สร้างและ Copy';
+    }
+
+    if (btn) {
+      btn.addEventListener('click', run);
+    } else {
+      console.error('btn-run not found');
+    }
+
+    // ================== Decoder: fig-kiwi HTML -> JSON ==================
+    const FIGMA_REGEX = /<!--\(figma\)([\s\S]*?)\(\/figma\)-->/;
+
+    function extractFigBytesFromHtml(html) {
+      const match = html.match(FIGMA_REGEX);
+      if (!match) throw new Error('ไม่พบส่วน <!--(figma)...(/figma)-->');
+      const base64 = match[1].trim();
+      const binStr = atob(base64);
+      const bytes = new Uint8Array(binStr.length);
+      for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+      return bytes;
+    }
+
+    function decodeKiwiMessage(bytes) {
+      const prelude = new TextDecoder().decode(bytes.slice(0, 7));
+      if (prelude !== 'fig-kiwi') {
+        throw new Error('ไม่ใช่ fig-kiwi clipboard');
+      }
+      let offset = 8; // skip prelude
+      const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+      const version = view.getUint32(offset, true);
+      offset += 4;
+      const len1 = view.getUint32(offset, true);
+      offset += 4 + len1; // skip compressed schema
+      const len2 = view.getUint32(offset, true);
+      offset += 4;
+      const chunk2 = bytes.slice(offset, offset + len2);
+
+      const compiled = compileSchema(defaultSchema);
+      const inflated = inflateSync(chunk2);
+      const decoded = (compiled).decodeMessage(inflated);
+      return { version, decoded };
+    }
+
+    function mapNodeChangeToSimple(change) {
+      const node = {
+        name: change.name,
+        type: change.type,
+      };
+      if (change.transform) {
+        node.x = change.transform.m02 || 0;
+        node.y = change.transform.m12 || 0;
+      }
+      if (change.size) {
+        node.width = change.size.x;
+        node.height = change.size.y;
+      }
+      if (Array.isArray(change.fillPaints) && change.fillPaints.length) {
+        node.fills = change.fillPaints.map(f => ({
+          type: 'SOLID',
+          color: f.color || { r: 0, g: 0, b: 0, a: 1 },
+          opacity: f.opacity ?? 1,
+          blendMode: f.blendMode || 'NORMAL'
+        }));
+      }
+      if (Array.isArray(change.strokePaints) && change.strokePaints.length) {
+        node.strokes = change.strokePaints.map(s => ({
+          type: 'SOLID',
+          color: s.color || { r: 0, g: 0, b: 0, a: 1 },
+          opacity: s.opacity ?? 1,
+          blendMode: s.blendMode || 'NORMAL'
+        }));
+        if (change.strokeWeight !== undefined) node.strokeWeight = change.strokeWeight;
+      }
+      if (change.cornerRadius !== undefined) node.cornerRadius = change.cornerRadius;
+      if (change.type === 'TEXT') {
+        if (change.textData?.characters) node.characters = change.textData.characters;
+        if (change.fontSize) node.fontSize = change.fontSize;
+        if (change.fontName) node.fontName = change.fontName;
+        if (change.lineHeight) node.lineHeight = change.lineHeight;
+        if (change.textAlignHorizontal) node.textAlignHorizontal = change.textAlignHorizontal;
+        if (change.textAlignVertical) node.textAlignVertical = change.textAlignVertical;
+        if (change.textAutoResize) node.textAutoResize = change.textAutoResize;
+      }
+      // auto layout approx from stack fields
+      if (change.stackMode) node.layoutMode = change.stackMode;
+      if (change.stackSpacing !== undefined) node.itemSpacing = change.stackSpacing;
+      if (change.stackPaddingTop !== undefined) node.paddingTop = change.stackPaddingTop;
+      if (change.stackPaddingRight !== undefined) node.paddingRight = change.stackPaddingRight;
+      if (change.stackPaddingBottom !== undefined) node.paddingBottom = change.stackPaddingBottom;
+      if (change.stackPaddingLeft !== undefined) node.paddingLeft = change.stackPaddingLeft;
+      return node;
+    }
+
+    function buildTree(nodeChanges) {
+      const map = new Map();
+      const roots = [];
+      nodeChanges.forEach(ch => {
+        const key = `${ch.guid.sessionID}:${ch.guid.localID}`;
+        map.set(key, { ...mapNodeChangeToSimple(ch), children: [], _parentIndex: ch.parentIndex });
+      });
+      map.forEach((node) => {
+        const p = node._parentIndex;
+        delete node._parentIndex;
+        if (p && p.guid) {
+          const pKey = `${p.guid.sessionID}:${p.guid.localID}`;
+          const parent = map.get(pKey);
+          if (parent) {
+            parent.children = parent.children || [];
+            parent.children.push(node);
+            return;
+          }
+        }
+        if (node.type !== 'DOCUMENT' && node.type !== 'CANVAS') {
+          roots.push(node);
+        }
+      });
+      return roots;
+    }
+
+    async function decodeFigmaClipboard() {
+      try {
+        if (!figmaHtmlInput.value.trim()) {
+          log('⚠️ กรุณาวาง HTML จากคลิปบอร์ดก่อน');
+          return;
+        }
+        const bytes = extractFigBytesFromHtml(figmaHtmlInput.value);
+        const { decoded } = decodeKiwiMessage(bytes);
+        const tree = buildTree(decoded.nodeChanges || []);
+        decodedBox.style.display = 'grid';
+        decodedJson.value = JSON.stringify(tree, null, 2);
+        log('✅ ถอดรหัส clipboard แล้ว');
+      } catch (err) {
+        log('❌ Decode ผิดพลาด: ' + err.message);
+        console.error(err);
+      }
+    }
+
+    if (btnDecode) {
+      btnDecode.addEventListener('click', decodeFigmaClipboard);
+    }
+
+    // ใส่ sample เล็ก ๆ ให้ลองได้ทันที
+    input.value = JSON.stringify({
+      type: 'TEXT',
+      name: 'Sample',
+      characters: 'Hello from JSON → Figma',
+      fontSize: 18,
+      fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, visible: true }]
+    }, null, 2);
+  </script>
+</body>
+</html>

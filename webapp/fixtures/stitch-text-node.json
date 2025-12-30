@@ -1,0 +1,257 @@
+{
+  "guid": {
+    "sessionID": 0,
+    "localID": 7
+  },
+  "phase": "CREATED",
+  "parentIndex": {
+    "guid": {
+      "sessionID": 0,
+      "localID": 6
+    },
+    "position": "!"
+  },
+  "type": "TEXT",
+  "name": "หน้าหลัก",
+  "fontSize": 18,
+  "textAlignHorizontal": "CENTER",
+  "textAlignVertical": "TOP",
+  "lineHeight": {
+    "value": 23,
+    "units": "PIXELS"
+  },
+  "fontName": {
+    "family": "Inter",
+    "style": "Bold",
+    "postscript": "Inter-Bold"
+  },
+  "textData": {
+    "characters": "หน้าหลัก",
+    "layoutSize": {
+      "x": 66.515625,
+      "y": 23
+    },
+    "baselines": [
+      {
+        "position": {
+          "x": 145.734375,
+          "y": 21
+        },
+        "width": 66.515625,
+        "lineY": 0,
+        "lineHeight": 23,
+        "lineAscent": 18,
+        "firstCharacter": 0,
+        "endCharacter": 8
+      }
+    ],
+    "glyphs": [
+      {
+        "position": {
+          "x": 145.734375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 0
+      },
+      {
+        "position": {
+          "x": 157.34375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 1
+      },
+      {
+        "position": {
+          "x": 169.390625,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 2
+      },
+      {
+        "position": {
+          "x": 169.390625,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 3
+      },
+      {
+        "position": {
+          "x": 179.234375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 4
+      },
+      {
+        "position": {
+          "x": 190.84375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 5
+      },
+      {
+        "position": {
+          "x": 201.609375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 6
+      },
+      {
+        "position": {
+          "x": 201.609375,
+          "y": 19.25
+        },
+        "styleID": 0,
+        "fontSize": 18,
+        "firstCharacter": 7
+      }
+    ],
+    "layoutVersion": 9,
+    "fontMetaData": [
+      {
+        "key": {
+          "family": "Inter",
+          "style": "Bold",
+          "postscript": "Inter-Bold"
+        },
+        "fontLineHeight": 1.2777777910232544,
+        "fontDigest": {
+          "0": 212,
+          "1": 131,
+          "2": 226,
+          "3": 199,
+          "4": 248,
+          "5": 3,
+          "6": 44,
+          "7": 102,
+          "8": 56,
+          "9": 208,
+          "10": 71,
+          "11": 22,
+          "12": 126,
+          "13": 251,
+          "14": 235,
+          "15": 160,
+          "16": 3,
+          "17": 15,
+          "18": 6,
+          "19": 73
+        },
+        "fontStyle": "NORMAL",
+        "fontWeight": 700
+      }
+    ],
+    "lines": [
+      {
+        "lineType": "PLAIN",
+        "indentationLevel": 0,
+        "directionality": "LTR",
+        "directionalityIntent": "IMPLICIT",
+        "listStartOffset": 0,
+        "isFirstLineOfList": false
+      }
+    ],
+    "truncationStartIndex": -1,
+    "truncatedHeight": -1,
+    "logicalIndexToCharacterOffsetMap": [
+      0,
+      11.609375,
+      23.65625,
+      23.65625,
+      33.5,
+      45.109375,
+      55.875,
+      55.875
+    ]
+  },
+  "fontVariantCommonLigatures": true,
+  "fontVariantContextualLigatures": true,
+  "fontVariantDiscretionaryLigatures": true,
+  "fontVariantHistoricalLigatures": false,
+  "fontVariantOrdinal": false,
+  "fontVariantSlashedZero": false,
+  "fontVariantNumericFigure": "NORMAL",
+  "fontVariantNumericSpacing": "NORMAL",
+  "fontVariantNumericFraction": "NORMAL",
+  "fontVariantCaps": "NORMAL",
+  "fontVariantPosition": "NORMAL",
+  "letterSpacing": {
+    "value": 0,
+    "units": "PIXELS"
+  },
+  "fontVersion": "2",
+  "textUserLayoutVersion": 4,
+  "toggledOnOTFeatures": [],
+  "toggledOffOTFeatures": [],
+  "fontVariations": [],
+  "textBidiVersion": 1,
+  "visible": true,
+  "locked": false,
+  "opacity": 1,
+  "blendMode": "PASS_THROUGH",
+  "size": {
+    "x": 66.515625,
+    "y": 23
+  },
+  "transform": {
+    "m00": 1,
+    "m01": 0,
+    "m02": 0,
+    "m10": 0,
+    "m11": 1,
+    "m12": 0
+  },
+  "dashPattern": [],
+  "mask": false,
+  "maskType": "ALPHA",
+  "strokeWeight": 1,
+  "strokeAlign": "OUTSIDE",
+  "strokeCap": "NONE",
+  "strokeJoin": "MITER",
+  "fillPaints": [
+    {
+      "type": "SOLID",
+      "color": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "opacity": 1,
+      "visible": true,
+      "blendMode": "NORMAL",
+      "transform": {
+        "m00": 1,
+        "m01": 0,
+        "m02": 0,
+        "m10": 0,
+        "m11": 1,
+        "m12": 0
+      }
+    }
+  ],
+  "strokePaints": [],
+  "proportionsConstrained": false,
+  "horizontalConstraint": "MIN",
+  "stackChildAlignSelf": "STRETCH",
+  "autoRename": true,
+  "miterLimit": 4,
+  "textTracking": 0,
+  "verticalConstraint": "MIN",
+  "handleMirroring": "NONE",
+  "textAutoResize": "WIDTH_AND_HEIGHT",
+  "detachOpticalSizeFromFontSize": false
+}

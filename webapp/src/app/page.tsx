@@ -261,61 +261,83 @@ export default function Home() {
   })
 
   const handleCopyToFigma = async (frame: DesignFrame) => {
-    console.log('Copy to Figma:', frame.id)
+    console.log('🎯 Copy to Figma (Native Kiwi mode):', frame.id)
 
-    // ALWAYS regenerate Figma JSON on the fly to ensure latest parser logic is used
-    // and to fix issues where initial generation might have had poor JSON.
-    let figmaData = frame.figmaJson;
-
-    try {
-      if (frame.html && geminiService.htmlToFigmaNodes) {
-        console.log("Regenerating Figma JSON from HTML...");
-        figmaData = geminiService.htmlToFigmaNodes(frame.html);
-      }
-    } catch (e) {
-      console.warn("Failed to regenerate Figma JSON, falling back to stored JSON", e);
-    }
-
-    if (!figmaData) {
-      console.warn('No Figma JSON available for this frame')
-      // Fallback to HTML copy if no JSON
-      try {
-        await navigator.clipboard.writeText(frame.html)
-        console.log('Fallback: HTML copied to clipboard')
-        alert('Copied HTML only (no Figma JSON available). Capture templates first/Wait for AI.')
-      } catch (err) {
-        console.error('Copy failed:', err)
-      }
+    if (!frame.html) {
+      console.warn('No HTML available for this frame')
+      alert('No design to copy. Generate a design first.')
       return
     }
 
     try {
-      const { createFigmaClipboardHTML } = await import('../lib/figma-encoder')
+      // PRIMARY: Use Kiwi binary encoder for native Figma layers
+      console.log('🔄 Step 1: Converting HTML to Figma nodes...')
 
-      const result = await createFigmaClipboardHTML(figmaData)
+      // Convert HTML to Figma nodes structure
+      let figmaData = frame.figmaJson
+      console.log('📦 frame.figmaJson:', figmaData ? 'exists' : 'null')
 
-      if (result.success && result.html) {
-        const blob = new Blob([result.html], { type: 'text/html' })
-        const text = JSON.stringify(figmaData, null, 2)
-        const textBlob = new Blob([text], { type: 'text/plain' })
-
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            'text/html': blob,
-            'text/plain': textBlob
-          })
-        ])
-
-        console.log('✅ Copied to clipboard in Native Figma format!')
-        alert('Copied to Figma! You can now paste (Cmd+V) directly into Figma.')
-      } else {
-        throw new Error(result.error || 'Encoding failed')
+      if (!figmaData && frame.html && geminiService.htmlToFigmaNodes) {
+        console.log('🔄 Step 2: Using htmlToFigmaNodes...')
+        figmaData = geminiService.htmlToFigmaNodes(frame.html)
+        console.log('📦 htmlToFigmaNodes result:', figmaData ? JSON.stringify(figmaData).substring(0, 200) : 'null')
       }
+
+      if (figmaData) {
+        console.log('🔄 Step 3: Calling createFigmaClipboardHTML...')
+        const { createFigmaClipboardHTML } = await import('../lib/figma-encoder')
+        const result = await createFigmaClipboardHTML(figmaData)
+
+        console.log('📦 Encoder result:', { success: result.success, htmlLength: result.html?.length, error: result.error })
+
+        if (result.success && result.html) {
+          // Write to clipboard as text/html with Figma format
+          console.log('✅ Step 4: Writing to clipboard...')
+          const blob = new Blob([result.html], { type: 'text/html' })
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': blob,
+              'text/plain': new Blob([''], { type: 'text/plain' })
+            })
+          ])
+          console.log('✅ Copied via Kiwi native format')
+          alert('✅ Copied to Figma (native format)!\nPaste (Cmd+V) into Figma canvas.')
+          return
+        }
+      }
+
+      // If no figmaData, fall through to SVG fallback
+      throw new Error('Could not convert to Figma nodes')
+
     } catch (err) {
-      console.error('Copy to Figma failed:', err)
-      alert('Failed to copy to Figma. Check console for details.')
+      console.warn('Kiwi encoder failed, trying SVG fallback...', err)
+
+      // FALLBACK: Use SVG clipboard mode
+      try {
+        const { copyHtmlAsSvg } = await import('../lib/svg-clipboard')
+        console.log('🔄 Converting HTML to SVG (fallback)...')
+        const result = await copyHtmlAsSvg(frame.html, 390, 844)
+
+        if (result.ok) {
+          console.log(`✅ Copied as SVG fallback (${result.mode})`)
+          alert(`⚠️ Copied as SVG (fallback mode).\nPaste (Cmd+V) into Figma.\nNote: May not be fully editable.`)
+          return
+        }
+      } catch (svgErr) {
+        console.error('SVG fallback also failed:', svgErr)
+      }
+
+      // Final fallback: copy raw HTML
+      try {
+        await navigator.clipboard.writeText(frame.html)
+        alert('Copied raw HTML. Native and SVG modes failed.')
+      } catch (e) {
+        console.error('All copy methods failed')
+        alert('Failed to copy to clipboard. Check console.')
+      }
     }
   }
+
 
   const handleNewProject = () => {
     setActiveProjectId(null)

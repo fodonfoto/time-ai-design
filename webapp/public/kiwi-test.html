@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kiwi Encoder Test</title>
+    <style>
+        body {
+            font-family: system-ui;
+            padding: 40px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        button {
+            padding: 16px 32px;
+            font-size: 18px;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background: #059669;
+        }
+
+        .log {
+            margin-top: 20px;
+            padding: 16px;
+            background: #262626;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎯 Kiwi Encoder Direct Test</h1>
+    <p>ทดสอบ Copy to Figma โดยตรง ไม่ผ่าน AI generation</p>
+
+    <button onclick="testSimpleFrame()">Test 1: Simple Frame</button>
+    <button onclick="testFrameWithText()">Test 2: Frame + Text</button>
+    <button onclick="testNestedFrames()">Test 3: Nested Frames</button>
+
+    <div id="log" class="log">Logs will appear here...</div>
+
+    <script type="module">
+        // Import from the built lib
+        import { createFigmaClipboardHTML } from '/src/lib/figma-encoder.ts';
+
+        function log(msg) {
+            const logEl = document.getElementById('log');
+            logEl.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        window.testSimpleFrame = async function () {
+            log('🔄 Testing simple frame...');
+            document.getElementById('log').textContent = '';
+
+            const design = {
+                type: 'FRAME',
+                name: 'Test Frame',
+                x: 0,
+                y: 0,
+                width: 390,
+                height: 200,
+                fills: [{ type: 'SOLID', color: { r: 0.06, g: 0.73, b: 0.51 }, visible: true }]
+            };
+
+            try {
+                const result = await createFigmaClipboardHTML(design);
+                log('📦 Result: ' + JSON.stringify({ success: result.success, htmlLength: result.html?.length }));
+
+                if (result.success && result.html) {
+                    // Write to clipboard
+                    const blob = new Blob([result.html], { type: 'text/html' });
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'text/html': blob,
+                            'text/plain': new Blob([''], { type: 'text/plain' })
+                        })
+                    ]);
+                    log('✅ Copied to clipboard! Paste in Figma now.');
+                    log('📋 HTML Preview: ' + result.html.substring(0, 200) + '...');
+                } else {
+                    log('❌ Error: ' + result.error);
+                }
+            } catch (err) {
+                log('❌ Exception: ' + err.message);
+                console.error(err);
+            }
+        };
+
+        window.testFrameWithText = async function () {
+            log('🔄 Testing frame with text...');
+            document.getElementById('log').textContent = '';
+
+            const design = {
+                type: 'FRAME',
+                name: 'Card',
+                x: 0,
+                y: 0,
+                width: 320,
+                height: 180,
+                fills: [{ type: 'SOLID', color: { r: 0.15, g: 0.15, b: 0.15 }, visible: true }],
+                cornerRadius: 16,
+                layoutMode: 'VERTICAL',
+                paddingTop: 24,
+                paddingBottom: 24,
+                paddingLeft: 24,
+                paddingRight: 24,
+                itemSpacing: 12,
+                children: [
+                    {
+                        type: 'TEXT',
+                        name: 'Title',
+                        characters: 'Hello Figma!',
+                        fontSize: 24,
+                        fontName: { family: 'Inter', style: 'Bold' },
+                        fills: [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, visible: true }]
+                    },
+                    {
+                        type: 'TEXT',
+                        name: 'Description',
+                        characters: 'This is a test from Time AI',
+                        fontSize: 14,
+                        fills: [{ type: 'SOLID', color: { r: 0.6, g: 0.6, b: 0.6 }, visible: true }]
+                    }
+                ]
+            };
+
+            try {
+                const result = await createFigmaClipboardHTML(design);
+                log('📦 Result: ' + JSON.stringify({ success: result.success, htmlLength: result.html?.length }));
+
+                if (result.success && result.html) {
+                    const blob = new Blob([result.html], { type: 'text/html' });
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'text/html': blob,
+                            'text/plain': new Blob([''], { type: 'text/plain' })
+                        })
+                    ]);
+                    log('✅ Copied to clipboard! Paste in Figma now.');
+                }
+            } catch (err) {
+                log('❌ Exception: ' + err.message);
+                console.error(err);
+            }
+        };
+
+        window.testNestedFrames = async function () {
+            log('🔄 Testing nested frames...');
+            document.getElementById('log').textContent = '';
+
+            const design = {
+                type: 'FRAME',
+                name: 'Container',
+                width: 390,
+                height: 300,
+                fills: [{ type: 'SOLID', color: { r: 0.1, g: 0.1, b: 0.1 }, visible: true }],
+                layoutMode: 'VERTICAL',
+                itemSpacing: 16,
+                children: [
+                    {
+                        type: 'FRAME',
+                        name: 'Header',
+                        width: 390,
+                        height: 60,
+                        fills: [{ type: 'SOLID', color: { r: 0.2, g: 0.2, b: 0.2 }, visible: true }]
+                    },
+                    {
+                        type: 'FRAME',
+                        name: 'Content',
+                        width: 390,
+                        height: 200,
+                        fills: [{ type: 'SOLID', color: { r: 0.15, g: 0.15, b: 0.15 }, visible: true }]
+                    }
+                ]
+            };
+
+            try {
+                const result = await createFigmaClipboardHTML(design);
+                log('📦 Result: ' + JSON.stringify({ success: result.success, htmlLength: result.html?.length }));
+
+                if (result.success && result.html) {
+                    const blob = new Blob([result.html], { type: 'text/html' });
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'text/html': blob,
+                            'text/plain': new Blob([''], { type: 'text/plain' })
+                        })
+                    ]);
+                    log('✅ Copied to clipboard! Paste in Figma now.');
+                }
+            } catch (err) {
+                log('❌ Exception: ' + err.message);
+                console.error(err);
+            }
+        };
+    </script>
+</body>
+
+</html>
