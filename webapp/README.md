@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Time AI Webapp
 
-## Getting Started
+Next.js application สำหรับ **Time AI - Generate UI Design to Figma**
 
-First, run the development server:
+## 🚀 Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/              # App Router pages
+├── components/       # React components
+│   ├── Canvas.tsx    # Design preview canvas
+│   ├── Sidebar.tsx   # Project sidebar
+│   └── ...
+├── lib/              # Utilities
+│   ├── figma-encoder.ts    # Figma clipboard encoding
+│   ├── html-to-figma/      # HTML to Figma converter
+│   └── figma-schema.ts     # Figma type definitions
+└── services/
+    └── geminiService.ts    # AI API integration
+```
 
-## Learn More
+## 🔧 Configuration
 
-To learn more about Next.js, take a look at the following resources:
+สร้างไฟล์ `.env.local`:
+```env
+NEXT_PUBLIC_GEMINI_API_KEY=your_api_key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm run start
+```
 
-## Deploy on Vercel
+## 🛠 Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 16 + React 19
+- TailwindCSS
+- Google Gemini API
+- Radix UI Components
