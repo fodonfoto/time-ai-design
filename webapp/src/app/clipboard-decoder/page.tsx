@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { decodeFigmaClipboard } from '@/lib/figma-encoder';
 
 export default function ClipboardDecoderPage() {

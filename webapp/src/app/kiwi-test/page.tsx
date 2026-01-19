@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createFigmaClipboardHTML, AINode } from '@/lib/figma-encoder'
 
 // Stitch Blobs (Base64)

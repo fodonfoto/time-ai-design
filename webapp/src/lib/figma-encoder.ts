@@ -453,22 +453,6 @@ export function transformToNodeChange(node: AINode, parentIndex: { guid: { sessi
                 }];
             }
 
-            // Minimal size to avoid invisible text on paste
-            const charCount = chars.length || 1;
-            const approxWidth = node.width ? Math.ceil(node.width) : Math.max(1, Math.ceil(charCount * textFontSize * 0.6));
-            // Ensure ample height for Fixed Size
-            const approxHeight = node.height ? Math.ceil(node.height) : (textLineHeight ? Math.ceil(textLineHeight as number) : Math.ceil(textFontSize * 1.5));
-            baseChange.size = { x: approxWidth, y: approxHeight };
-            baseChange.textData.layoutSize = { x: approxWidth, y: approxHeight };
-
-            // Text auto resize - Force 'NONE' (Fixed Size)
-            // This relies on our 'approxWidth/Height' and forces Figma to render within that box.
-            // It avoids "Rectangles" (HEIGHT) and "Invisible" (WIDTH_AND_HEIGHT).
-            baseChange.textAutoResize = 'NONE';
-
-            // Note: We deliberately removed the 'case RECTANGLE' fallthrough by fixing the break/return above if needed, 
-            // but here we just set the property.
-
             break;
 
         case 'RECTANGLE':

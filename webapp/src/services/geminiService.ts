@@ -816,6 +816,22 @@ function elementToNode(el: HTMLElement): any {
         node.characters = el.textContent?.trim() || "";
         node.fills = node.fills || [];
 
+        // Check for width constraints to determine textAutoResize
+        const hasWidth = classes.match(/w-\[(\d+)px\]/) || classes.match(/w-(\d+)/) || classes.includes('w-full');
+
+        if (hasWidth) {
+            // If width is constrained, it should wrap (Auto Height)
+            node.textAutoResize = "HEIGHT";
+            node.layoutSizingHorizontal = "FIXED";
+            if (classes.includes('w-full')) node.layoutSizingHorizontal = "FILL";
+            node.layoutSizingVertical = "HUG";
+        } else {
+            // Default: Auto Width (grow with text)
+            node.textAutoResize = "WIDTH_AND_HEIGHT";
+            node.layoutSizingHorizontal = "HUG";
+            node.layoutSizingVertical = "HUG";
+        }
+
         // Text Color
         const textHexMatch = classes.match(/text-\[#([0-9a-fA-F]{3,6})\]/);
         if (textHexMatch) {
